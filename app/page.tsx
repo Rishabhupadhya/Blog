@@ -25,7 +25,15 @@ export default function BlogPage() {
           "
         >
           {blogs.map((blog) => (
-            <BlogCard key={blog.slug} blog={blog} />
+            <BlogCard
+              key={blog.slug}
+              blog={{
+                slug: blog.slug,
+                title: (blog as any).title || "Untitled",
+                description: (blog as any).description || "No description available.",
+                date: (blog as any).date || "Unknown date"
+              }}
+            />
           ))}
         </div>
 
