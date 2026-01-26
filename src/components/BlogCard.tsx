@@ -1,37 +1,40 @@
+"use client";
+
 import Link from "next/link";
 
-type BlogCardProps = {
-  slug: string;
+interface BlogCardProps {
   title: string;
   description: string;
-  date: string;
-};
+  slug: string;
+}
 
 export default function BlogCard({
-  slug,
   title,
   description,
-  date,
+  slug,
 }: BlogCardProps) {
   return (
     <Link href={`/blog/${slug}`}>
-      <article
+      <div
         className="
-          rounded-2xl
-          bg-white
-          p-6
-          shadow-md
-          transition-transform duration-300
+          group cursor-pointer
+          rounded-2xl p-6
+          bg-white/5 backdrop-blur
+          border border-white/10
+          transition-all duration-300
+          hover:scale-[1.03]
           hover:-translate-y-2
-          hover:rotate-[0.5deg]
-          hover:shadow-xl
-          cursor-pointer
+          hover:shadow-[0_25px_80px_-15px_rgba(34,211,238,0.35)]
         "
       >
-        <p className="text-sm text-gray-500 mb-2">{date}</p>
-        <h2 className="text-xl font-semibold mb-3">{title}</h2>
-        <p className="text-gray-600 leading-relaxed">{description}</p>
-      </article>
+        <h3 className="text-xl font-semibold text-cyan-400 mb-3">
+          {title}
+        </h3>
+
+        <p className="text-gray-300 text-sm leading-relaxed">
+          {description}
+        </p>
+      </div>
     </Link>
   );
 }
