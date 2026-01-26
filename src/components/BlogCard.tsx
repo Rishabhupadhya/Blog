@@ -1,40 +1,50 @@
 "use client";
 
 import Link from "next/link";
+import TiltCard from "./TiltCard";
 
-interface BlogCardProps {
+type Blog = {
+  slug: string;
   title: string;
   description: string;
-  slug: string;
-}
+  date: string;
+};
 
-export default function BlogCard({
-  title,
-  description,
-  slug,
-}: BlogCardProps) {
+export default function BlogCard({ blog }: { blog: Blog }) {
   return (
-    <Link href={`/blog/${slug}`}>
-      <div
-        className="
-          group cursor-pointer
-          rounded-2xl p-6
-          bg-white/5 backdrop-blur
-          border border-white/10
-          transition-all duration-300
-          hover:scale-[1.03]
-          hover:-translate-y-2
-          hover:shadow-[0_25px_80px_-15px_rgba(34,211,238,0.35)]
-        "
-      >
-        <h3 className="text-xl font-semibold text-cyan-400 mb-3">
-          {title}
-        </h3>
+    <Link href={`/blog/${blog.slug}`} className="block h-full">
+      <TiltCard>
+        <article
+          className="
+            h-full
+            flex
+            flex-col
+            justify-between
+            rounded-2xl
+            border border-white/10
+            bg-black/40
+            backdrop-blur
+            p-6
+            transition-all
+            duration-300
+            hover:border-cyan-400/50
+            min-h-[320px]
+          "
+        >
+          <h2 className="text-xl font-semibold text-cyan-400 mb-3">
+            {blog.title}
+          </h2>
 
-        <p className="text-gray-300 text-sm leading-relaxed">
-          {description}
-        </p>
-      </div>
+          <p className="text-gray-400 text-sm mb-4">
+            {blog.date}
+          </p>
+
+          {/* pushes content evenly */}
+          <p className="text-gray-300 leading-relaxed flex-grow">
+            {blog.description}
+          </p>
+        </article>
+      </TiltCard>
     </Link>
   );
 }

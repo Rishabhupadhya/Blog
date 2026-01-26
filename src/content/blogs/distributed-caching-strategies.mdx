@@ -1,0 +1,73 @@
+---
+title: "Distributed Caching Strategies for High-Scale Systems"
+date: "2025-02-25"
+description: "How large-scale systems use distributed caching to reduce latency, protect databases, and scale reliably."
+---
+
+Caching is one of the **highest ROI optimizations** in backend engineering.  
+Used correctly, it can reduce latency by orders of magnitude and dramatically cut infrastructure costs.
+
+## Why Distributed Caching Matters
+
+At scale:
+- Databases become the bottleneck
+- Read traffic dominates write traffic
+- Latency expectations are extremely low
+
+Distributed caches solve this by serving data **closer to the application** and avoiding repeated database hits.
+
+## Common Distributed Cache Systems
+
+- **Redis** – In-memory, fast, feature-rich
+- **Memcached** – Simple, extremely fast
+- **Cloud-managed caches** – AWS ElastiCache, Azure Cache for Redis
+
+## Caching Patterns (Interview Favorite)
+
+### 1. Cache-Aside (Lazy Loading)
+- App checks cache first
+- On miss, fetch from DB and populate cache
+
+**Pros:** Simple, widely used  
+**Cons:** Cache misses cause DB spikes
+
+### 2. Read-Through Cache
+- Cache sits between app and DB
+- Automatically loads data on miss
+
+**Pros:** Cleaner application code  
+**Cons:** Less control over behavior
+
+### 3. Write-Through Cache
+- Writes go to cache and DB simultaneously
+
+**Pros:** Cache consistency  
+**Cons:** Higher write latency
+
+## Cache Invalidation (Hardest Problem)
+
+Strategies include:
+- TTL-based expiration
+- Explicit invalidation on writes
+- Versioned cache keys
+
+> “There are only two hard problems in computer science: cache invalidation and naming things.”
+
+## Real-World Considerations
+
+- Hot keys can overload a single node
+- Use consistent hashing for even distribution
+- Always plan for cache failures
+
+## Observability & Safety
+
+- Monitor hit/miss ratio
+- Set sensible TTLs
+- Implement circuit breakers
+
+## Interview Tip
+
+When discussing caching in interviews:
+> Always mention **TTL, eviction policies, and failure handling**.
+
+Caching done right is invisible to users — but critical to system success.
