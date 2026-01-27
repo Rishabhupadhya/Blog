@@ -18,7 +18,7 @@ export default function Navbar() {
           <Link href="/#projects" className="text-gray-300 hover:text-cyan-400 transition">
             Projects
           </Link>
-          <Link href="/#contact" className="text-gray-300 hover:text-cyan-400 transition">
+          <Link href="mailto:rishabh.292002@gmail.com" className="text-gray-300 hover:text-cyan-400 transition">
             Contact
           </Link>
         </div>

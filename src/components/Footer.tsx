@@ -2,9 +2,8 @@
 
 import {
   FaGithub,
-  FaInstagram,
   FaLinkedin,
-  FaTwitter,
+  FaEnvelope,
 } from "react-icons/fa";
 
 export default function Footer() {
@@ -74,8 +73,13 @@ export default function Footer() {
               <li className="hover:text-cyan-400 transition cursor-pointer">
                 Projects
               </li>
-              <li className="hover:text-cyan-400 transition cursor-pointer">
-                Contact
+              <li>
+                <a
+                  href="mailto:rishabh.292002@gmail.com"
+                  className="hover:text-cyan-400 transition"
+                >
+                  Contact
+                </a>
               </li>
             </ul>
           </div>
@@ -131,10 +135,10 @@ export default function Footer() {
             </a>
 
             <a
-              href="#"
+              href="mailto:rishabh.292002@gmail.com"
               className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-cyan-400 hover:text-black transition"
             >
-              <FaInstagram size={18} />
+              <FaEnvelope size={18} />
             </a>
           </div>
         </div>
