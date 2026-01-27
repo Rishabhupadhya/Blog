@@ -4,7 +4,7 @@ import BlogCard from "@/components/BlogCard";
 import BlogHeader from "@/components/BlogHeader";
 import Pagination from "@/components/pagination";
 
-const BLOGS_PER_PAGE = 8; // Changed to 2 so you can see pagination with 4 blogs (2 pages)
+const BLOGS_PER_PAGE = 8; // Changed to 8 so you can see pagination with 8 blogs (1 page)
 
 export default function BlogList({ blogs = [] }: { blogs?: any[] }) {
   const [search, setSearch] = useState("");
