@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-export default function BlogCard({ blog }: { blog: any }) {
+export default function BlogCard({ blog, basePath = "/blog" }: { blog: any; basePath?: string }) {
   return (
     <motion.div
       layout
@@ -17,7 +17,7 @@ export default function BlogCard({ blog }: { blog: any }) {
         h-full
       "
     >
-      <Link href={`/blog/${blog.slug}`} className="block h-full">
+      <Link href={`${basePath}/${blog.slug}`} className="block h-full">
 
         {/* SHARED TITLE */}
         <motion.h2

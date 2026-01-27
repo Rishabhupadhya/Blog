@@ -1,0 +1,46 @@
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+
+export function getAllSystemDesignPosts() {
+  if (typeof window !== "undefined") {
+    throw new Error("getAllSystemDesignPosts can only be run on the server");
+  }
+  const postsDir = path.join(process.cwd(), "src/content/system-design");
+  if (!fs.existsSync(postsDir)) {
+    return [];
+  }
+  const files = fs.readdirSync(postsDir).filter((file) => file.endsWith(".mdx"));
+  return files.map((file) => {
+    const slug = file.replace(/\.mdx$/, "");
+    const filePath = path.join(postsDir, file);
+    const source = fs.readFileSync(filePath, "utf8");
+    const { data, content } = matter(source);
+    return {
+      slug,
+      ...data,
+      content,
+    };
+  });
+}
+
+export function getSystemDesignPostBySlug(slug: string) {
+  if (typeof window !== "undefined") {
+    throw new Error("getSystemDesignPostBySlug can only be run on the server");
+  }
+  const filePath = path.join(process.cwd(), "src/content/system-design", `${slug}.mdx`);
+  if (!fs.existsSync(filePath)) throw new Error("Post not found");
+  const source = fs.readFileSync(filePath, "utf8");
+  const { data, content } = matter(source);
+  return {
+    slug,
+    ...data,
+    content,
+  };
+}
+
+export function getRelatedSystemDesignPosts(currentSlug: string, limit = 3) {
+  return getAllSystemDesignPosts()
+    .filter((post) => post.slug !== currentSlug)
+    .slice(0, limit);
+}

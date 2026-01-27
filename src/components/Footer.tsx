@@ -39,17 +39,37 @@ export default function Footer() {
                   Technology
                 </a>
               </li>
-              <li className="hover:text-cyan-400 transition cursor-pointer">
-                System Design
+              <li>
+                <a
+                  href="/system-design"
+                  className="hover:text-cyan-400 transition"
+                >
+                  System Design
+                </a>
               </li>
-              <li className="hover:text-cyan-400 transition cursor-pointer">
-                Backend Engineering
+              <li>
+                <a
+                  href="/backend-engineering"
+                  className="hover:text-cyan-400 transition"
+                >
+                  Backend Engineering
+                </a>
               </li>
-              <li className="hover:text-cyan-400 transition cursor-pointer">
-                Cloud & DevOps
+              <li>
+                <a
+                  href="/cloud-devops"
+                  className="hover:text-cyan-400 transition"
+                >
+                  Cloud & DevOps
+                </a>
               </li>
-              <li className="hover:text-cyan-400 transition cursor-pointer">
-                AI & ML
+              <li>
+                <a
+                  href="/ai-ml"
+                  className="hover:text-cyan-400 transition"
+                >
+                  AI & ML
+                </a>
               </li>
             </ul>
           </div>
