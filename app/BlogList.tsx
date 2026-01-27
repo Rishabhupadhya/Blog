@@ -32,7 +32,7 @@ export default function BlogList({ blogs = [] }: { blogs?: any[] }) {
       <main className="min-h-screen px-8 py-24 bg-gradient-to-b from-black via-gray-900 to-black">
         <section className="max-w-7xl mx-auto">
           <h1 className="text-center text-4xl md:text-5xl font-bold text-cyan-400 mb-16">
-            Tech Blog
+            Technology Blogs
           </h1>
           {filteredBlogs.length === 0 ? (
             <p className="text-center text-gray-400">

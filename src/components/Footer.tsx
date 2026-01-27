@@ -31,6 +31,14 @@ export default function Footer() {
               COMMUNITIES
             </h4>
             <ul className="space-y-3 text-gray-300 text-sm">
+              <li>
+                <a
+                  href="/"
+                  className="hover:text-cyan-400 transition"
+                >
+                  Technology
+                </a>
+              </li>
               <li className="hover:text-cyan-400 transition cursor-pointer">
                 System Design
               </li>
@@ -60,14 +68,6 @@ export default function Footer() {
                   className="hover:text-cyan-400 transition"
                 >
                   About Me
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/"
-                  className="hover:text-cyan-400 transition"
-                >
-                  Tech Blog
                 </a>
               </li>
               <li className="hover:text-cyan-400 transition cursor-pointer">
