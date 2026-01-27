@@ -33,7 +33,7 @@ export default function Footer() {
             <ul className="space-y-3 text-gray-300 text-sm">
               <li>
                 <a
-                  href="/"
+                  href="/technology"
                   className="hover:text-cyan-400 transition"
                 >
                   Technology
