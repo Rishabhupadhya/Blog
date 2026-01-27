@@ -1,38 +1,20 @@
 import { getBlogBySlug } from "@/lib/getBlogs";
+import { getAllBlogs } from "@/lib/getBlogs";
+import { getHeadings } from "@/lib/getHeadings";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
+import TableOfContents from "@/components/TableOfContents";
 
-/* ===============================
-   Reading Progress Bar (Client)
+/* ================================
+   Related Blogs Helper
 ================================ */
-function ReadingProgress() {
-  return (
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `
-          (function () {
-            const bar = document.getElementById("reading-progress");
-            if (!bar) return;
-
-            function update() {
-              const scrollTop = window.scrollY;
-              const docHeight =
-                document.documentElement.scrollHeight -
-                document.documentElement.clientHeight;
-              const progress = (scrollTop / docHeight) * 100;
-              bar.style.width = progress + "%";
-            }
-
-            window.addEventListener("scroll", update);
-            update();
-          })();
-        `,
-      }}
-    />
-  );
+function getRelatedBlogs(currentSlug: string, limit = 3) {
+  return getAllBlogs()
+    .filter((blog) => blog.slug !== currentSlug)
+    .slice(0, limit);
 }
 
-/* ===============================
+/* ================================
    Blog Detail Page
 ================================ */
 export default async function BlogDetail({
@@ -49,83 +31,109 @@ export default async function BlogDetail({
     return notFound();
   }
 
-  const { content, data } = blog;
-  if (!data?.title) return notFound();
+  // blog is { slug, content, ...frontmatter }
+  const content = blog.content;
+  // Use type assertion to access possible frontmatter fields
+  const title = (blog as any).title || '';
+  const date = (blog as any).date || '';
+
+  if (!title) return notFound();
+
+  // Extract headings for table of contents
+  const headings = getHeadings(content);
+
+  // Related blogs may also be missing title/date, so fallback to empty string
+  const relatedBlogs = Array.isArray(getRelatedBlogs(slug)) ? getRelatedBlogs(slug) : [];
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-black via-[#020617] to-black">
+    <main className="min-h-screen px-6 py-28 bg-gradient-to-b from-black via-black to-cyan-950">
+      
+      {/* ===== TABLE OF CONTENTS ===== */}
+      <TableOfContents headings={headings} />
 
-      {/* ===== Reading Progress Bar ===== */}
-      <div
-        id="reading-progress"
-        className="fixed top-0 left-0 h-[3px] bg-cyan-400 z-50 transition-all"
-        style={{ width: "0%" }}
-      />
-      <ReadingProgress />
+      <article className="max-w-4xl mx-auto">
 
-      {/* ===== Content Wrapper ===== */}
-      <article className="max-w-4xl mx-auto px-6 py-28">
-
-        {/* ===== Back Link ===== */}
-        <a
-          href="/blog"
-          className="inline-block mb-8 text-sm text-gray-400 hover:text-cyan-400 transition"
-        >
-          ← Back to Blog
-        </a>
-
-        {/* ===== Title ===== */}
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-cyan-400 leading-tight">
-          {data.title}
+        {/* ===== TITLE ===== */}
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-cyan-400">
+          {title}
         </h1>
 
-        {/* ===== Meta ===== */}
+        {/* ===== META ===== */}
         <p className="text-sm text-gray-400 mb-10">
-          {data.date}
-          {data.readingTime && ` · ${data.readingTime}`}
+          {date}
         </p>
 
-        {/* ===== Divider ===== */}
-        <div className="h-[2px] w-24 bg-cyan-400 mb-14" />
+        {/* ===== DIVIDER ===== */}
+        <div className="h-[2px] w-24 bg-cyan-400 mb-12" />
 
-        {/* ===== Blog Content ===== */}
+        {/* ===== BLOG CONTENT ===== */}
         <div
           className="
             prose prose-invert
             prose-headings:text-cyan-400
-            prose-h2:mt-14
-            prose-h3:mt-10
-            prose-p:text-gray-300
+            prose-headings:scroll-mt-20
             prose-a:text-cyan-400
             prose-strong:text-white
             prose-code:text-cyan-300
-            prose-code:bg-black/40
-            prose-code:px-1.5
-            prose-code:py-0.5
-            prose-code:rounded
             prose-pre:bg-black/40
             prose-pre:border
             prose-pre:border-white/10
-            prose-pre:rounded-lg
-            prose-pre:p-4
+            prose-pre:rounded-xl
             max-w-none
           "
         >
-          <MDXRemote source={content} />
+          <MDXRemote 
+            source={content}
+            components={{
+              h2: ({ children, ...props }) => {
+                const id = String(children).toLowerCase().replace(/[^\w]+/g, "-");
+                return <h2 id={id} {...props}>{children}</h2>;
+              },
+              h3: ({ children, ...props }) => {
+                const id = String(children).toLowerCase().replace(/[^\w]+/g, "-");
+                return <h3 id={id} {...props}>{children}</h3>;
+              },
+            }}
+          />
         </div>
 
-        {/* ===== Footer CTA ===== */}
-        <div className="mt-24 pt-12 border-t border-white/10 text-center">
-          <p className="text-gray-400 mb-4">
-            Thanks for reading ✨
-          </p>
-          <a
-            href="/blog"
-            className="text-cyan-400 hover:underline"
-          >
-            Read more articles →
-          </a>
-        </div>
+        {/* ===== RELATED POSTS ===== */}
+        {relatedBlogs.length > 0 && (
+          <section className="mt-32">
+            <h2 className="text-2xl font-bold text-cyan-400 mb-8">
+              Related Posts
+            </h2>
+
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedBlogs.map((post) => (
+                <a
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="
+                    group
+                    block
+                    p-6
+                    rounded-2xl
+                    border
+                    border-white/10
+                    bg-black/40
+                    transition-all
+                    hover:-translate-y-1
+                    hover:border-cyan-400
+                    hover:shadow-[0_12px_50px_-15px_rgba(34,211,238,0.45)]
+                  "
+                >
+                  <h3 className="text-lg font-semibold mb-2 group-hover:text-cyan-400 transition">
+                    {'title' in post ? (post as any).title : 'Untitled'}
+                  </h3>
+                  <p className="text-sm text-gray-400">
+                    {'date' in post ? (post as any).date : ''}
+                  </p>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
 
       </article>
     </main>

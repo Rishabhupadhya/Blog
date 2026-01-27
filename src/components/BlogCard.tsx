@@ -1,50 +1,44 @@
-"use client";
-
 import Link from "next/link";
-import TiltCard from "./TiltCard";
 
-type Blog = {
-  slug: string;
-  title: string;
-  description: string;
-  date: string;
+type BlogCardProps = {
+  blog: {
+    slug: string;
+    title: string;
+    date: string;
+    description?: string;
+  };
 };
 
-export default function BlogCard({ blog }: { blog: Blog }) {
+export default function BlogCard({ blog }: BlogCardProps) {
   return (
-    <Link href={`/blog/${blog.slug}`} className="block h-full">
-      <TiltCard>
-        <article
-          className="
-            h-full
-            flex
-            flex-col
-            justify-between
-            rounded-2xl
-            border border-white/10
-            bg-black/40
-            backdrop-blur
-            p-6
-            transition-all
-            duration-300
-            hover:border-cyan-400/50
-            min-h-[320px]
-          "
-        >
-          <h2 className="text-xl font-semibold text-cyan-400 mb-3">
-            {blog.title}
-          </h2>
+    <Link href={`/blog/${blog.slug}`}>
+      <article
+        className="
+          h-full
+          rounded-2xl
+          border
+          border-white/10
+          bg-black/40
+          p-6
+          transition-all
+          hover:-translate-y-1
+          hover:border-cyan-400
+          hover:shadow-[0_20px_60px_-20px_rgba(34,211,238,0.5)]
+          cursor-pointer
+        "
+      >
+        <h3 className="text-lg font-semibold text-cyan-400 mb-3">
+          {blog.title}
+        </h3>
 
-          <p className="text-gray-400 text-sm mb-4">
-            {blog.date}
-          </p>
+        <p className="text-sm text-gray-400 mb-4">
+          {blog.date}
+        </p>
 
-          {/* pushes content evenly */}
-          <p className="text-gray-300 leading-relaxed flex-grow">
-            {blog.description}
-          </p>
-        </article>
-      </TiltCard>
+        <p className="text-sm text-gray-300 leading-relaxed line-clamp-3">
+          {blog.description}
+        </p>
+      </article>
     </Link>
   );
 }
