@@ -68,7 +68,7 @@ export default function Footer() {
                   href="/"
                   className="hover:text-cyan-400 transition"
                 >
-                  Blog
+                  Tech Blog
                 </a>
               </li>
               <li className="hover:text-cyan-400 transition cursor-pointer">

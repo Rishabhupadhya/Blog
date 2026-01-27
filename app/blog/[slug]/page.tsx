@@ -1,5 +1,4 @@
-import { getBlogBySlug } from "@/lib/getBlogs";
-import { getAllBlogs } from "@/lib/getBlogs";
+import { getBlogBySlug, getAllBlogs } from "@/lib/getBlogs";
 import { getHeadings } from "@/lib/getHeadings";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
@@ -14,9 +13,6 @@ function getRelatedBlogs(currentSlug: string, limit = 3) {
     .slice(0, limit);
 }
 
-/* ================================
-   Blog Detail Page
-================================ */
 export default async function BlogDetail({
   params,
 }: {
@@ -33,7 +29,6 @@ export default async function BlogDetail({
 
   // blog is { slug, content, ...frontmatter }
   const content = blog.content;
-  // Use type assertion to access possible frontmatter fields
   const title = (blog as any).title || '';
   const date = (blog as any).date || '';
 
@@ -42,8 +37,8 @@ export default async function BlogDetail({
   // Extract headings for table of contents
   const headings = getHeadings(content);
 
-  // Related blogs may also be missing title/date, so fallback to empty string
-  const relatedBlogs = Array.isArray(getRelatedBlogs(slug)) ? getRelatedBlogs(slug) : [];
+  // Get related blogs
+  const relatedBlogs = getRelatedBlogs(slug);
 
   return (
     <main className="min-h-screen px-6 py-28 bg-gradient-to-b from-black via-black to-cyan-950">
