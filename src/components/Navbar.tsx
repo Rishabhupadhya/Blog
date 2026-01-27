@@ -28,9 +28,14 @@ export default function Navbar() {
         </Link>
 
         <div className="flex gap-8 text-sm font-medium items-center">
-          <Link href="/#about" className="text-gray-300 hover:text-cyan-400 transition">
-            About
-          </Link>
+          <a
+            href="https://rishabhupadhyay.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-300 hover:text-cyan-400 transition"
+          >
+            About Me
+          </a>
           
           {/* Categories Dropdown */}
           <div 
