@@ -110,14 +110,29 @@ export default function Footer() {
               USEFUL LINKS
             </h4>
             <ul className="space-y-3 text-gray-300 text-sm">
-              <li className="hover:text-cyan-400 transition cursor-pointer">
-                Privacy Policy
+              <li>
+                <a
+                  href="/privacy-policy"
+                  className="hover:text-cyan-400 transition"
+                >
+                  Privacy Policy
+                </a>
               </li>
-              <li className="hover:text-cyan-400 transition cursor-pointer">
-                Terms & Conditions
+              <li>
+                <a
+                  href="/terms"
+                  className="hover:text-cyan-400 transition"
+                >
+                  Terms & Conditions
+                </a>
               </li>
-              <li className="hover:text-cyan-400 transition cursor-pointer">
-                Cookies
+              <li>
+                <a
+                  href="/cookies"
+                  className="hover:text-cyan-400 transition"
+                >
+                  Cookies
+                </a>
               </li>
             </ul>
           </div>
