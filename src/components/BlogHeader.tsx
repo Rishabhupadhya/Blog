@@ -31,6 +31,10 @@ export default function BlogHeader({ onSearch }: BlogHeaderProps) {
     }, 300); // 300ms delay before hiding
   };
 
+  const handleClick = () => {
+    setShowDropdown(!showDropdown);
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-black border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
@@ -43,17 +47,17 @@ export default function BlogHeader({ onSearch }: BlogHeaderProps) {
         </div>
 
         {/* CENTER: NAV WITH DROPDOWN */}
-        <nav className="hidden md:flex items-center gap-8 text-sm">
+        <nav className="flex items-center gap-4 sm:gap-8 text-xs sm:text-sm">
           <a
             href="https://rishabhupadhyay.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-300 hover:text-cyan-400 transition"
+            className="text-gray-300 hover:text-cyan-400 transition hidden sm:inline"
           >
             About Me
           </a>
 
-          <span className="text-gray-500">|</span>
+          <span className="text-gray-500 hidden sm:inline">|</span>
 
           {/* Categories Dropdown */}
           <div 
@@ -61,46 +65,55 @@ export default function BlogHeader({ onSearch }: BlogHeaderProps) {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <button className="text-gray-300 hover:text-cyan-400 transition flex items-center gap-1">
-              Categories
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button 
+              onClick={handleClick}
+              className="text-gray-300 hover:text-cyan-400 transition flex items-center gap-1"
+            >
+              <span className="hidden sm:inline">Categories</span>
+              <span className="sm:hidden">Menu</span>
+              <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
             
             {showDropdown && (
               <div 
-                className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-black/95 backdrop-blur-sm border border-gray-800 rounded-lg shadow-xl overflow-hidden"
+                className="absolute top-full left-1/2 -translate-x-1/2 sm:left-1/2 right-0 sm:right-auto mt-2 w-48 sm:w-56 bg-black/95 backdrop-blur-sm border border-gray-800 rounded-lg shadow-xl overflow-hidden"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
                 <a 
                   href="/technology"
-                  className="block px-4 py-3 text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
+                  className="block px-3 sm:px-4 py-2 sm:py-3 text-sm text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
+                  onClick={() => setShowDropdown(false)}
                 >
                   Technology
                 </a>
                 <a 
                   href="/system-design"
-                  className="block px-4 py-3 text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
+                  className="block px-3 sm:px-4 py-2 sm:py-3 text-sm text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
+                  onClick={() => setShowDropdown(false)}
                 >
                   System Design
                 </a>
                 <a 
                   href="/backend-engineering"
-                  className="block px-4 py-3 text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
+                  className="block px-3 sm:px-4 py-2 sm:py-3 text-sm text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
+                  onClick={() => setShowDropdown(false)}
                 >
                   Backend Engineering
                 </a>
                 <a 
                   href="/cloud-devops"
-                  className="block px-4 py-3 text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
+                  className="block px-3 sm:px-4 py-2 sm:py-3 text-sm text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
+                  onClick={() => setShowDropdown(false)}
                 >
                   Cloud & DevOps
                 </a>
                 <a 
                   href="/ai-ml"
-                  className="block px-4 py-3 text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
+                  className="block px-3 sm:px-4 py-2 sm:py-3 text-sm text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
+                  onClick={() => setShowDropdown(false)}
                 >
                   AI & ML
                 </a>
@@ -110,7 +123,7 @@ export default function BlogHeader({ onSearch }: BlogHeaderProps) {
         </nav>
 
         {/* RIGHT: SEARCH */}
-        <div className="relative w-32 sm:w-48 md:w-64 flex-shrink">
+        <div className="relative w-24 sm:w-32 md:w-48 lg:w-64 flex-shrink">
           <FaSearch
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             size={14}
