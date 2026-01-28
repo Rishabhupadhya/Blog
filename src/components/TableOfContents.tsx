@@ -25,7 +25,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
           }
         });
       },
-      { rootMargin: "0% 0% -80% 0%" }
+      { rootMargin: "-35% 0px -55% 0px" }
     );
 
     headings.forEach((heading) => {
@@ -40,7 +40,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
 
   return (
     <>
-      {/* Desktop TOC - Fixed Sidebar */}
+      {/* Desktop TOC - Fixed Sidebar (shows on large screens) */}
       <nav className="hidden lg:block fixed top-32 right-8 w-64 z-10">
         <div className="bg-black/60 backdrop-blur-sm border border-cyan-400/30 rounded-xl p-6 shadow-lg">
           <h3 className="text-sm font-semibold text-cyan-400 mb-4 uppercase tracking-wider">
@@ -71,7 +71,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
         </div>
       </nav>
 
-      {/* Mobile TOC - Collapsible Button */}
+      {/* Mobile TOC - Floating Button (shows on mobile and tablet) */}
       <div className="lg:hidden fixed bottom-8 right-8 z-50">
         {isOpen && (
           <div className="mb-4 bg-black/90 backdrop-blur-sm border border-cyan-400/30 rounded-xl p-6 shadow-2xl max-w-xs">

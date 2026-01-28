@@ -1,17 +1,23 @@
-export function getHeadings(content: string) {
-  const regex = /^(##|###)\s+(.*)$/gm;
-  const headings = [];
+// lib/getHeadings.ts
 
-  let match;
-  while ((match = regex.exec(content)) !== null) {
-    headings.push({
-      level: match[1] === "##" ? 2 : 3,
-      text: match[2],
-      id: match[2]
+export type Heading = {
+  id: string;
+  text: string;
+  level: number;
+};
+
+export function getHeadings(source: string): Heading[] {
+  return source
+    .split("\n")
+    .filter((line) => line.match(/^#{1,3}\s/)) // h1, h2, h3
+    .map((line) => {
+      const level = line.match(/^#{1,3}/)?.[0].length ?? 1;
+      const text = line.replace(/^#{1,3}\s*/, "").trim();
+      const id = text
         .toLowerCase()
-        .replace(/[^\w]+/g, "-"),
-    });
-  }
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-");
 
-  return headings;
+      return { id, text, level };
+    });
 }
