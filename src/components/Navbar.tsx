@@ -24,7 +24,7 @@ export default function Navbar() {
     <header className="fixed top-0 left-0 w-full z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">
       <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="font-semibold text-lg text-cyan-400 hover:text-cyan-300 transition">
-          Rishabh Upadhyay
+          Techies Journal
         </Link>
 
         <div className="flex gap-8 text-sm font-medium items-center">

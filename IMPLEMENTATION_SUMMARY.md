@@ -86,7 +86,7 @@ Each category has **IDENTICAL** functionality:
 
 ### ✅ Shared Components:
 - `BlogCard` - Updated with `basePath` prop for flexible routing
-- `BlogHeader` - Search bar with "Rishabh Blogs" home link
+- `BlogHeader` - Search bar with "Techies Journal" home link
 - `TableOfContents` - Responsive ToC with active section highlighting
 - `Pagination` - Client-side page navigation
 - `Navbar` - Fixed top navigation

@@ -55,7 +55,7 @@ Homepage (/)
 ## 🎯 Navigation Updates
 
 ### Navbar (Top Navigation)
-- **Home Link** - "Rishabh Upadhyay" logo → Homepage
+- **Home Link** - "Techies Journal" logo → Homepage
 - **Categories Dropdown** - Hover to see all 5 categories
   - Technology
   - System Design

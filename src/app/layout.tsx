@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: "Rishabh Upadhyay | Tech Blog",
+  title: "Techies Journal | Tech Blog",
   description: "System Design, Backend, Cloud & DevOps Blogs",
 };
 

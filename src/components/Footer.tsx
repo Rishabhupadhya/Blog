@@ -17,7 +17,7 @@ export default function Footer() {
           {/* BRAND */}
           <div>
             <h2 className="text-2xl font-bold text-cyan-400 mb-4">
-              Rishabh Blogs
+              Techies Journal
             </h2>
             <p className="text-gray-400 text-sm leading-relaxed">
               Writing about system design, backend engineering, cloud,
@@ -131,7 +131,7 @@ export default function Footer() {
 
           {/* LEGAL */}
           <p className="text-gray-500 text-xs">
-            © {new Date().getFullYear()} Rishabh Upadhyay. All rights reserved.
+            © {new Date().getFullYear()} Techies Journal. All rights reserved.
           </p>
 
           {/* SOCIALS */}
