@@ -33,7 +33,7 @@ export default function BlogCard({ blog, basePath = "/blog" }: { blog: any; base
         </p>
 
         <p className="text-gray-300 text-xs sm:text-sm line-clamp-4 break-words">
-          {blog.excerpt}
+          {blog.excerpt || blog.description}
         </p>
 
       </Link>
