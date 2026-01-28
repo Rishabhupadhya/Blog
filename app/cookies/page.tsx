@@ -5,30 +5,30 @@ export const metadata = {
 
 export default function Cookies() {
   return (
-    <main className="min-h-screen px-6 py-28 max-w-4xl mx-auto bg-gradient-to-b from-black via-black to-cyan-950">
-      <h1 className="text-4xl font-bold text-cyan-400 mb-8">
+    <main className="min-h-screen px-4 sm:px-6 lg:px-8 py-24 sm:py-28 max-w-4xl mx-auto bg-gradient-to-b from-black via-black to-cyan-950 w-full overflow-hidden">
+      <h1 className="text-3xl sm:text-4xl font-bold text-cyan-400 mb-6 sm:mb-8 break-words">
         Cookie Policy
       </h1>
 
-      <p className="text-gray-400 mb-12">
+      <p className="text-sm sm:text-base text-gray-400 mb-8 sm:mb-12 break-words">
         <strong>Effective Date:</strong> January 28, 2026<br />
         <strong>Last Updated:</strong> {new Date().toDateString()}
       </p>
 
-      <div className="space-y-10 text-gray-300 leading-relaxed">
+      <div className="space-y-8 sm:space-y-10 text-sm sm:text-base text-gray-300 leading-relaxed break-words">
         
         {/* Introduction */}
         <section>
-          <h2 className="text-2xl font-semibold text-cyan-400 mb-4">1. What Are Cookies?</h2>
-          <p>
+          <h2 className="text-xl sm:text-2xl font-semibold text-cyan-400 mb-3 sm:mb-4 break-words">1. What Are Cookies?</h2>
+          <p className="break-words">
             Cookies are small text files stored on your device (computer, tablet, or mobile) when you visit a website. They help websites remember your preferences, analyze how you use the site, and provide a better user experience. Cookies may be set by the website you visit ("first-party cookies") or by third-party services ("third-party cookies").
           </p>
         </section>
 
         {/* How We Use Cookies */}
         <section>
-          <h2 className="text-2xl font-semibold text-cyan-400 mb-4">2. How Techies Journal Uses Cookies</h2>
-          <p className="mb-4">
+          <h2 className="text-xl sm:text-2xl font-semibold text-cyan-400 mb-3 sm:mb-4 break-words">2. How Techies Journal Uses Cookies</h2>
+          <p className="mb-4 break-words">
             We use cookies and similar tracking technologies to enhance your experience on our website, understand user behavior, and improve our content. Below are the main categories of cookies we use:
           </p>
 

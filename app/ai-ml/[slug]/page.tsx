@@ -31,14 +31,14 @@ export default async function AIMLDetail({
   const relatedPosts = getRelatedAIMLPosts(slug);
 
   return (
-    <main className="min-h-screen px-6 py-28 bg-gradient-to-b from-black via-black to-cyan-950">
+    <main className="min-h-screen px-4 sm:px-6 lg:px-8 py-28 bg-gradient-to-b from-black via-black to-cyan-950">
       
       <ReadingProgress />
       
       <TableOfContents headings={headings} />
 
       
-        <article className="max-w-4xl mx-auto">
+        <article className="max-w-4xl mx-auto w-full overflow-hidden">
 
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-cyan-400">
             {title}
@@ -53,16 +53,22 @@ export default async function AIMLDetail({
           <div
             className="
               prose prose-invert
+              prose-sm sm:prose-base
               prose-headings:text-cyan-400
               prose-headings:scroll-mt-20
               prose-a:text-cyan-400
+              prose-a:break-words
               prose-strong:text-white
               prose-code:text-cyan-300
+              prose-code:break-words
               prose-pre:bg-black/40
               prose-pre:border
               prose-pre:border-white/10
               prose-pre:rounded-xl
+              prose-pre:overflow-x-auto
               max-w-none
+              break-words
+              overflow-wrap-anywhere
             "
           >
             <MDXRemote 

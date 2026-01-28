@@ -5,33 +5,33 @@ export const metadata = {
 
 export default function PrivacyPolicy() {
   return (
-    <main className="min-h-screen px-6 py-28 max-w-4xl mx-auto bg-gradient-to-b from-black via-black to-cyan-950">
-      <h1 className="text-4xl font-bold text-cyan-400 mb-8">
+    <main className="min-h-screen px-4 sm:px-6 lg:px-8 py-24 sm:py-28 max-w-4xl mx-auto bg-gradient-to-b from-black via-black to-cyan-950 w-full overflow-hidden">
+      <h1 className="text-3xl sm:text-4xl font-bold text-cyan-400 mb-6 sm:mb-8 break-words">
         Privacy Policy
       </h1>
 
-      <p className="text-gray-400 mb-12">
+      <p className="text-sm sm:text-base text-gray-400 mb-8 sm:mb-12 break-words">
         <strong>Effective Date:</strong> January 28, 2026<br />
         <strong>Last Updated:</strong> {new Date().toDateString()}
       </p>
 
-      <div className="space-y-10 text-gray-300 leading-relaxed">
+      <div className="space-y-8 sm:space-y-10 text-sm sm:text-base text-gray-300 leading-relaxed break-words">
         
         {/* Introduction */}
         <section>
-          <h2 className="text-2xl font-semibold text-cyan-400 mb-4">1. Introduction</h2>
-          <p>
+          <h2 className="text-xl sm:text-2xl font-semibold text-cyan-400 mb-3 sm:mb-4 break-words">1. Introduction</h2>
+          <p className="break-words">
             Welcome to Techies Journal ("we," "our," or "us"). We are committed to protecting your privacy and ensuring transparency about how we collect, use, and safeguard your information. This Privacy Policy explains our practices regarding data collection and your rights as a visitor to our website.
           </p>
         </section>
 
         {/* Information We Collect */}
         <section>
-          <h2 className="text-2xl font-semibold text-cyan-400 mb-4">2. Information We Collect</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold text-cyan-400 mb-3 sm:mb-4 break-words">2. Information We Collect</h2>
           
-          <h3 className="text-xl font-semibold text-gray-200 mb-3 mt-6">2.1 Automatically Collected Information</h3>
-          <p className="mb-3">When you visit our website, we automatically collect certain information about your device and browsing behavior, including:</p>
-          <ul className="list-disc list-inside space-y-2 ml-4 text-gray-400">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-200 mb-3 mt-4 sm:mt-6 break-words">2.1 Automatically Collected Information</h3>
+          <p className="mb-3 break-words">When you visit our website, we automatically collect certain information about your device and browsing behavior, including:</p>
+          <ul className="list-disc list-inside space-y-2 ml-4 text-gray-400 break-words">
             <li>IP address and general location (city/country level)</li>
             <li>Browser type and version</li>
             <li>Device type and operating system</li>

@@ -71,10 +71,10 @@ const itemVariants = {
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black">
+    <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black overflow-hidden">
       
       {/* Hero Section */}
-      <section className="relative px-8 pt-32 pb-20 overflow-hidden">
+      <section className="relative px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-16 sm:pb-20 overflow-hidden">
         {/* Animated background gradient */}
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" />
@@ -87,14 +87,14 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent break-words">
               Techies Journal
 
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-4">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-4 break-words px-2">
               Your gateway to System Design, Backend Engineering, Cloud & AI
             </p>
-            <p className="text-gray-400 max-w-3xl mx-auto">
+            <p className="text-sm sm:text-base text-gray-400 max-w-3xl mx-auto break-words px-4">
               Dive deep into cutting-edge technologies, learn best practices, and stay ahead in the ever-evolving tech landscape
             </p>
           </motion.div>
@@ -102,8 +102,8 @@ export default function HomePage() {
       </section>
 
       {/* Categories Grid */}
-      <section className="px-8 py-16">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto w-full overflow-hidden">
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -199,49 +199,49 @@ export default function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="px-8 py-20">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+        <div className="max-w-7xl mx-auto w-full overflow-hidden">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center"
           >
-            <div className="p-6 rounded-2xl bg-black/40 border border-white/10">
-              <div className="text-4xl font-bold text-cyan-400 mb-2">12+</div>
-              <div className="text-gray-400 text-sm">Articles</div>
+            <div className="p-4 sm:p-6 rounded-2xl bg-black/40 border border-white/10">
+              <div className="text-3xl sm:text-4xl font-bold text-cyan-400 mb-2">12+</div>
+              <div className="text-gray-400 text-xs sm:text-sm">Articles</div>
             </div>
-            <div className="p-6 rounded-2xl bg-black/40 border border-white/10">
-              <div className="text-4xl font-bold text-purple-400 mb-2">5</div>
-              <div className="text-gray-400 text-sm">Categories</div>
+            <div className="p-4 sm:p-6 rounded-2xl bg-black/40 border border-white/10">
+              <div className="text-3xl sm:text-4xl font-bold text-purple-400 mb-2">5</div>
+              <div className="text-gray-400 text-xs sm:text-sm">Categories</div>
             </div>
-            <div className="p-6 rounded-2xl bg-black/40 border border-white/10">
-              <div className="text-4xl font-bold text-green-400 mb-2">100%</div>
-              <div className="text-gray-400 text-sm">Free Content</div>
+            <div className="p-4 sm:p-6 rounded-2xl bg-black/40 border border-white/10">
+              <div className="text-3xl sm:text-4xl font-bold text-green-400 mb-2">100%</div>
+              <div className="text-gray-400 text-xs sm:text-sm">Free Content</div>
             </div>
-            <div className="p-6 rounded-2xl bg-black/40 border border-white/10">
-              <div className="text-4xl font-bold text-orange-400 mb-2">∞</div>
-              <div className="text-gray-400 text-sm">Learning</div>
+            <div className="p-4 sm:p-6 rounded-2xl bg-black/40 border border-white/10">
+              <div className="text-3xl sm:text-4xl font-bold text-orange-400 mb-2">∞</div>
+              <div className="text-gray-400 text-xs sm:text-sm">Learning</div>
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="px-8 py-20">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+        <div className="max-w-4xl mx-auto text-center w-full overflow-hidden">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-400/30 rounded-3xl p-12"
+            className="bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-400/30 rounded-3xl p-8 sm:p-12"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 break-words">
               Ready to Level Up Your Skills?
             </h2>
-            <p className="text-gray-300 mb-8">
+            <p className="text-sm sm:text-base text-gray-300 mb-6 sm:mb-8 break-words px-2">
               Choose a category above and start your learning journey today
             </p>
             <Link

@@ -5,29 +5,29 @@ export const metadata = {
 
 export default function Terms() {
   return (
-    <main className="min-h-screen px-6 py-28 max-w-4xl mx-auto bg-gradient-to-b from-black via-black to-cyan-950">
-      <h1 className="text-4xl font-bold text-cyan-400 mb-8">
+    <main className="min-h-screen px-4 sm:px-6 lg:px-8 py-24 sm:py-28 max-w-4xl mx-auto bg-gradient-to-b from-black via-black to-cyan-950 w-full overflow-hidden">
+      <h1 className="text-3xl sm:text-4xl font-bold text-cyan-400 mb-6 sm:mb-8 break-words">
         Terms & Conditions
       </h1>
 
-      <p className="text-gray-400 mb-12">
+      <p className="text-sm sm:text-base text-gray-400 mb-8 sm:mb-12 break-words">
         <strong>Effective Date:</strong> January 28, 2026<br />
         <strong>Last Updated:</strong> {new Date().toDateString()}
       </p>
 
-      <div className="space-y-10 text-gray-300 leading-relaxed">
+      <div className="space-y-8 sm:space-y-10 text-sm sm:text-base text-gray-300 leading-relaxed break-words">
         
         {/* Introduction */}
         <section>
-          <h2 className="text-2xl font-semibold text-cyan-400 mb-4">1. Agreement to Terms</h2>
-          <p>
+          <h2 className="text-xl sm:text-2xl font-semibold text-cyan-400 mb-3 sm:mb-4 break-words">1. Agreement to Terms</h2>
+          <p className="break-words">
             Welcome to Techies Journal. By accessing or using our website, you agree to be bound by these Terms and Conditions ("Terms"). If you do not agree with any part of these Terms, you must not use our website. These Terms constitute a legally binding agreement between you and Techies Journal.
           </p>
         </section>
 
         {/* Use of Website */}
         <section>
-          <h2 className="text-2xl font-semibold text-cyan-400 mb-4">2. Use of Website</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold text-cyan-400 mb-3 sm:mb-4 break-words">2. Use of Website</h2>
           
           <h3 className="text-xl font-semibold text-gray-200 mb-3 mt-6">2.1 Permitted Use</h3>
           <p className="mb-3">You may use our website for lawful purposes only. You agree not to:</p>

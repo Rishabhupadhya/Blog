@@ -29,9 +29,9 @@ export default function BlogList({ blogs = [] }: { blogs?: any[] }) {
   return (
     <>
       <BlogHeader onSearch={handleSearch} />
-      <main className="min-h-screen px-8 py-24 bg-gradient-to-b from-black via-gray-900 to-black">
-        <section className="max-w-7xl mx-auto">
-          <h1 className="text-center text-4xl md:text-5xl font-bold text-cyan-400 mb-16">
+      <main className="min-h-screen px-4 sm:px-6 lg:px-8 py-24 bg-gradient-to-b from-black via-gray-900 to-black">
+        <section className="max-w-7xl mx-auto w-full overflow-hidden">
+          <h1 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-cyan-400 mb-12 sm:mb-16 break-words">
             Technology Blogs
           </h1>
           {filteredBlogs.length === 0 ? (

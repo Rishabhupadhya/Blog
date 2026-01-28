@@ -33,11 +33,11 @@ export default function BlogHeader({ onSearch }: BlogHeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 bg-black border-b border-gray-800">
-      <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
 
         {/* LEFT: LOGO */}
-        <div className="flex items-center gap-3">
-          <a href="/" className="text-xl font-bold text-cyan-400 hover:text-cyan-300 transition cursor-pointer">
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <a href="/" className="text-lg sm:text-xl font-bold text-cyan-400 hover:text-cyan-300 transition cursor-pointer">
             Techies Journal
           </a>
         </div>
@@ -110,14 +110,14 @@ export default function BlogHeader({ onSearch }: BlogHeaderProps) {
         </nav>
 
         {/* RIGHT: SEARCH */}
-        <div className="relative w-64">
+        <div className="relative w-32 sm:w-48 md:w-64 flex-shrink">
           <FaSearch
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             size={14}
           />
           <input
             type="text"
-            placeholder="Search blogs..."
+            placeholder="Search..."
             value={query}
             onChange={handleChange}
             className="
