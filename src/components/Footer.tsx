@@ -74,10 +74,10 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* COMPANY */}
+          {/* CONNECT */}
           <div>
             <h4 className="text-sm font-semibold tracking-widest text-gray-500 mb-5">
-              COMPANY
+              CONNECT
             </h4>
             <ul className="space-y-3 text-gray-300 text-sm">
               <li>
@@ -89,9 +89,6 @@ export default function Footer() {
                 >
                   About Me
                 </a>
-              </li>
-              <li className="hover:text-cyan-400 transition cursor-pointer">
-                Projects
               </li>
               <li>
                 <a

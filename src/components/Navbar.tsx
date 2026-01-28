@@ -90,9 +90,6 @@ export default function Navbar() {
             )}
           </div>
 
-          <Link href="/#projects" className="text-gray-300 hover:text-cyan-400 transition">
-            Projects
-          </Link>
           <Link href="mailto:rishabh.292002@gmail.com" className="text-gray-300 hover:text-cyan-400 transition">
             Contact
           </Link>
