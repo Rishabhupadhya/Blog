@@ -3,6 +3,8 @@ import { getHeadings } from "@/lib/getHeadings";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import TableOfContents from "@/components/TableOfContents";
+import CodeBlock from "@/components/CodeBlock";
+import ReadingProgress from "@/components/ReadingProgress";
 
 export default async function BackendEngineeringDetail({
   params,
@@ -29,6 +31,8 @@ export default async function BackendEngineeringDetail({
 
   return (
     <main className="min-h-screen px-6 py-28 bg-gradient-to-b from-black via-black to-cyan-950">
+      
+      <ReadingProgress />
       
       <TableOfContents headings={headings} />
 
@@ -70,6 +74,7 @@ export default async function BackendEngineeringDetail({
                 const id = String(children).toLowerCase().replace(/[^\w]+/g, "-");
                 return <h3 id={id} {...props}>{children}</h3>;
               },
+              pre: ({ children }) => <CodeBlock>{children}</CodeBlock>,
             }}
           />
         </div>

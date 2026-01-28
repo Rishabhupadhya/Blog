@@ -3,6 +3,8 @@ import { getHeadings } from "@/lib/getHeadings";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import TableOfContents from "@/components/TableOfContents";
+import CodeBlock from "@/components/CodeBlock";
+import ReadingProgress from "@/components/ReadingProgress";
 
 /* ================================
    Related Blogs Helper
@@ -43,6 +45,9 @@ export default async function BlogDetail({
   return (
     <main className="min-h-screen px-6 py-28 bg-gradient-to-b from-black via-black to-cyan-950">
       
+      {/* ===== READING PROGRESS BAR ===== */}
+      <ReadingProgress />
+      
       {/* ===== TABLE OF CONTENTS ===== */}
       <TableOfContents headings={headings} />
 
@@ -76,20 +81,20 @@ export default async function BlogDetail({
               prose-pre:rounded-xl
               max-w-none
             "
-          >
-            <MDXRemote 
-              source={content}
-              components={{
-                h2: ({ children, ...props }) => {
-                  const id = String(children).toLowerCase().replace(/[^\w]+/g, "-");
-                  return <h2 id={id} {...props}>{children}</h2>;
-                },
-                h3: ({ children, ...props }) => {
-                  const id = String(children).toLowerCase().replace(/[^\w]+/g, "-");
-                  return <h3 id={id} {...props}>{children}</h3>;
-                },
-              }}
-            />
+          >          <MDXRemote 
+            source={content}
+            components={{
+              h2: ({ children, ...props }) => {
+                const id = String(children).toLowerCase().replace(/[^\w]+/g, "-");
+                return <h2 id={id} {...props}>{children}</h2>;
+              },
+              h3: ({ children, ...props }) => {
+                const id = String(children).toLowerCase().replace(/[^\w]+/g, "-");
+                return <h3 id={id} {...props}>{children}</h3>;
+              },
+              pre: ({ children }) => <CodeBlock>{children}</CodeBlock>,
+            }}
+          />
           </div>
 
           {/* ===== RELATED POSTS ===== */}
