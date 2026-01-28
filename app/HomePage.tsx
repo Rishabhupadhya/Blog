@@ -114,7 +114,7 @@ export default function HomePage() {
               const IconComponent = category.icon;
               return (
                 <motion.div key={category.href} variants={itemVariants}>
-                  <Link href={category.href}>
+                  <Link href={category.href} prefetch={true}>
                     <div className="group relative h-full">
                       {/* Card */}
                       <div
@@ -246,6 +246,7 @@ export default function HomePage() {
             </p>
             <Link
               href="/technology"
+              prefetch={true}
               className="
                 inline-block
                 px-8 py-4

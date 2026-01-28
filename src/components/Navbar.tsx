@@ -27,7 +27,7 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="font-semibold text-base sm:text-lg text-cyan-400 hover:text-cyan-300 transition">
+        <Link href="/" prefetch={true} className="font-semibold text-base sm:text-lg text-cyan-400 hover:text-cyan-300 transition">
           Techies Journal
         </Link>
 
@@ -66,6 +66,7 @@ export default function Navbar() {
               >
                 <Link 
                   href="/technology"
+                  prefetch={true}
                   className="block px-3 sm:px-4 py-2 sm:py-3 text-sm text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
                   onClick={() => setShowDropdown(false)}
                 >
@@ -73,6 +74,7 @@ export default function Navbar() {
                 </Link>
                 <Link 
                   href="/system-design"
+                  prefetch={true}
                   className="block px-3 sm:px-4 py-2 sm:py-3 text-sm text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
                   onClick={() => setShowDropdown(false)}
                 >
@@ -80,6 +82,7 @@ export default function Navbar() {
                 </Link>
                 <Link 
                   href="/backend-engineering"
+                  prefetch={true}
                   className="block px-3 sm:px-4 py-2 sm:py-3 text-sm text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
                   onClick={() => setShowDropdown(false)}
                 >
@@ -87,6 +90,7 @@ export default function Navbar() {
                 </Link>
                 <Link 
                   href="/cloud-devops"
+                  prefetch={true}
                   className="block px-3 sm:px-4 py-2 sm:py-3 text-sm text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
                   onClick={() => setShowDropdown(false)}
                 >
@@ -94,6 +98,7 @@ export default function Navbar() {
                 </Link>
                 <Link 
                   href="/ai-ml"
+                  prefetch={true}
                   className="block px-3 sm:px-4 py-2 sm:py-3 text-sm text-gray-300 hover:bg-cyan-400/10 hover:text-cyan-400 transition"
                   onClick={() => setShowDropdown(false)}
                 >

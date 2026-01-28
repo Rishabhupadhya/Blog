@@ -35,6 +35,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/technology"
+                  prefetch={true}
                   className="hover:text-cyan-400 transition"
                 >
                   Technology
@@ -43,6 +44,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/system-design"
+                  prefetch={true}
                   className="hover:text-cyan-400 transition"
                 >
                   System Design
@@ -51,6 +53,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/backend-engineering"
+                  prefetch={true}
                   className="hover:text-cyan-400 transition"
                 >
                   Backend Engineering
@@ -59,6 +62,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/cloud-devops"
+                  prefetch={true}
                   className="hover:text-cyan-400 transition"
                 >
                   Cloud & DevOps
@@ -67,6 +71,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/ai-ml"
+                  prefetch={true}
                   className="hover:text-cyan-400 transition"
                 >
                   AI & ML
@@ -111,6 +116,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/privacy-policy"
+                  prefetch={true}
                   className="hover:text-cyan-400 transition"
                 >
                   Privacy Policy
@@ -119,6 +125,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/terms"
+                  prefetch={true}
                   className="hover:text-cyan-400 transition"
                 >
                   Terms & Conditions
@@ -127,6 +134,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/cookies"
+                  prefetch={true}
                   className="hover:text-cyan-400 transition"
                 >
                   Cookies

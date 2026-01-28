@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BlogCard from "@/components/BlogCard";
 import BlogHeader from "@/components/BlogHeader";
 import Pagination from "@/components/pagination";
@@ -9,6 +9,12 @@ const BLOGS_PER_PAGE = 8; // Changed to 8 so you can see pagination with 8 blogs
 export default function BlogList({ blogs = [] }: { blogs?: any[] }) {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  
+  // Reset state when blogs change
+  useEffect(() => {
+    setSearch("");
+    setCurrentPage(1);
+  }, [blogs.length]);
   
   const filteredBlogs = blogs.filter((blog) =>
     blog.title.toLowerCase().includes(search.toLowerCase()) ||

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BlogCard from "@/components/BlogCard";
 import BlogHeader from "@/components/BlogHeader";
 import Pagination from "@/components/pagination";
@@ -9,6 +9,12 @@ const POSTS_PER_PAGE = 8;
 export default function SystemDesignList({ posts = [] }: { posts?: any[] }) {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  
+  // Reset state when posts change
+  useEffect(() => {
+    setSearch("");
+    setCurrentPage(1);
+  }, [posts.length]);
   
   const filteredPosts = posts.filter((post) =>
     post.title.toLowerCase().includes(search.toLowerCase()) ||
