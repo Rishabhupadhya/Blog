@@ -60,7 +60,7 @@ export default function Navbar() {
             
             {showDropdown && (
               <div 
-                className="absolute top-full right-0 mt-2 w-48 sm:w-56 bg-black/95 backdrop-blur-sm border border-gray-800 rounded-lg shadow-xl overflow-hidden"
+                className="absolute top-full right-0 mt-2 w-48 sm:w-56 bg-black/95 backdrop-blur-sm border border-gray-800 rounded-lg shadow-xl overflow-hidden z-50"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   FaGithub,
   FaLinkedin,
@@ -32,44 +33,44 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3 text-gray-300 text-sm">
               <li>
-                <a
+                <Link
                   href="/technology"
                   className="hover:text-cyan-400 transition"
                 >
                   Technology
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/system-design"
                   className="hover:text-cyan-400 transition"
                 >
                   System Design
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/backend-engineering"
                   className="hover:text-cyan-400 transition"
                 >
                   Backend Engineering
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/cloud-devops"
                   className="hover:text-cyan-400 transition"
                 >
                   Cloud & DevOps
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/ai-ml"
                   className="hover:text-cyan-400 transition"
                 >
                   AI & ML
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -108,28 +109,28 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3 text-gray-300 text-sm">
               <li>
-                <a
+                <Link
                   href="/privacy-policy"
                   className="hover:text-cyan-400 transition"
                 >
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/terms"
                   className="hover:text-cyan-400 transition"
                 >
                   Terms & Conditions
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/cookies"
                   className="hover:text-cyan-400 transition"
                 >
                   Cookies
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
