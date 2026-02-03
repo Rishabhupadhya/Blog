@@ -1,4 +1,4 @@
-import { getCloudDevOpsPostBySlug, getRelatedCloudDevOpsPosts } from "@/lib/getCloudDevOps";
+import { getCloudDevOpsPostBySlug, getRelatedCloudDevOpsPosts, getAllCloudDevOpsPosts } from "@/lib/getCloudDevOps";
 import { getHeadings } from "@/lib/getHeadings";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
@@ -6,6 +6,12 @@ import TableOfContents from "@/components/TableOfContents";
 import CodeBlock from "@/components/CodeBlock";
 import ReadingProgress from "@/components/ReadingProgress";
 
+export async function generateStaticParams() {
+  const posts = getAllCloudDevOpsPosts();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
 
 export default async function CloudDevOpsDetail({
   params,

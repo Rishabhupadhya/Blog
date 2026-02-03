@@ -1,14 +1,17 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import BlogCard from "@/components/BlogCard";
 import BlogHeader from "@/components/BlogHeader";
 import Pagination from "@/components/pagination";
+import BlogFilter, { SortOrder } from "@/components/BlogFilter";
 
 const POSTS_PER_PAGE = 8;
 
 export default function BackendEngineeringList({ posts = [] }: { posts?: any[] }) {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortOrder, setSortOrder] = useState<SortOrder>("newest");
+  const [dateRange, setDateRange] = useState<{ start?: string; end?: string }>({});
   
   // Reset state when posts change
   useEffect(() => {
@@ -16,17 +19,56 @@ export default function BackendEngineeringList({ posts = [] }: { posts?: any[] }
     setCurrentPage(1);
   }, [posts.length]);
   
-  const filteredPosts = posts.filter((post) =>
-    post.title.toLowerCase().includes(search.toLowerCase()) ||
-    post.description.toLowerCase().includes(search.toLowerCase())
-  );
+  const sortedAndFilteredPosts = useMemo(() => {
+    const lowerSearch = (search || '').toLowerCase();
+    let filtered = posts.filter((post) =>
+      (post.title || '').toLowerCase().includes(lowerSearch) ||
+      (post.description || '').toLowerCase().includes(lowerSearch)
+    );
 
-  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+    // Apply date range filter if set
+    if (dateRange.start && dateRange.end) {
+      filtered = filtered.filter((post) => {
+        if (!post.date) return false;
+        const postDate = new Date(post.date);
+        const start = new Date(dateRange.start!);
+        const end = new Date(dateRange.end!);
+        return postDate >= start && postDate <= end;
+      });
+    }
+
+    // Apply sorting
+    const sorted = [...filtered].sort((a, b) => {
+      const dateA = new Date(a.date || '1970-01-01');
+      const dateB = new Date(b.date || '1970-01-01');
+      
+      if (sortOrder === "newest") {
+        return dateB.getTime() - dateA.getTime();
+      } else if (sortOrder === "oldest") {
+        return dateA.getTime() - dateB.getTime();
+      }
+      return 0;
+    });
+
+    return sorted;
+  }, [posts, search, sortOrder, dateRange]);
+
+  const totalPages = Math.ceil(sortedAndFilteredPosts.length / POSTS_PER_PAGE);
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
-  const paginatedPosts = filteredPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
+  const paginatedPosts = sortedAndFilteredPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
 
   const handleSearch = (searchTerm: string) => {
     setSearch(searchTerm);
+    setCurrentPage(1);
+  };
+
+  const handleSortChange = (order: SortOrder, startDate?: string, endDate?: string) => {
+    setSortOrder(order);
+    if (order === "date-range" && startDate && endDate) {
+      setDateRange({ start: startDate, end: endDate });
+    } else {
+      setDateRange({});
+    }
     setCurrentPage(1);
   };
 
@@ -38,7 +80,8 @@ export default function BackendEngineeringList({ posts = [] }: { posts?: any[] }
           <h1 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-cyan-400 mb-12 sm:mb-16 break-words">
             Backend Engineering
           </h1>
-          {filteredPosts.length === 0 ? (
+          <BlogFilter onSortChange={handleSortChange} />
+          {sortedAndFilteredPosts.length === 0 ? (
             <p className="text-center text-gray-400">
               {search ? `No posts found for "${search}"` : "No posts available yet"}
             </p>
@@ -59,7 +102,7 @@ export default function BackendEngineeringList({ posts = [] }: { posts?: any[] }
                 ))}
               </div>
 
-              {filteredPosts.length > 0 && (
+              {sortedAndFilteredPosts.length > 0 && (
                 <div className="mt-20 flex justify-center">
                   <Pagination
                     currentPage={currentPage}

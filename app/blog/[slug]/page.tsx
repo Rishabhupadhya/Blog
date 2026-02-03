@@ -15,6 +15,13 @@ function getRelatedBlogs(currentSlug: string, limit = 3) {
     .slice(0, limit);
 }
 
+export async function generateStaticParams() {
+  const blogs = getAllBlogs();
+  return blogs.map((blog) => ({
+    slug: blog.slug,
+  }));
+}
+
 export default async function BlogDetail({
   params,
 }: {

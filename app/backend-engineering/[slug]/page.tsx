@@ -1,10 +1,17 @@
-import { getBackendEngineeringPostBySlug, getRelatedBackendEngineeringPosts } from "@/lib/getBackendEngineering";
+import { getBackendEngineeringPostBySlug, getRelatedBackendEngineeringPosts, getAllBackendEngineeringPosts } from "@/lib/getBackendEngineering";
 import { getHeadings } from "@/lib/getHeadings";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import TableOfContents from "@/components/TableOfContents";
 import CodeBlock from "@/components/CodeBlock";
 import ReadingProgress from "@/components/ReadingProgress";
+
+export async function generateStaticParams() {
+  const posts = getAllBackendEngineeringPosts();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
 
 export default async function BackendEngineeringDetail({
   params,

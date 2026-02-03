@@ -11,7 +11,7 @@ export function getAllBackendEngineeringPosts() {
     return [];
   }
   const files = fs.readdirSync(postsDir).filter((file) => file.endsWith(".mdx"));
-  return files.map((file) => {
+  const posts = files.map((file) => {
     const slug = file.replace(/\.mdx$/, "");
     const filePath = path.join(postsDir, file);
     const source = fs.readFileSync(filePath, "utf8");
@@ -21,6 +21,12 @@ export function getAllBackendEngineeringPosts() {
       ...data,
       content,
     };
+  });
+  // Sort by date (newest first)
+  return posts.sort((a: any, b: any) => {
+    const dateA = new Date(a.date || '1970-01-01');
+    const dateB = new Date(b.date || '1970-01-01');
+    return dateB.getTime() - dateA.getTime();
   });
 }
 

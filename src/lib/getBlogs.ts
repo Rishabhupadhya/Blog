@@ -12,7 +12,7 @@ export function getAllBlogs() {
   }
   const blogsDir = path.join(process.cwd(), "src/content/blogs");
   const files = fs.readdirSync(blogsDir).filter((file) => file.endsWith(".mdx"));
-  return files.map((file) => {
+  const blogs = files.map((file) => {
     const slug = file.replace(/\.mdx$/, "");
     const filePath = path.join(blogsDir, file);
     const source = fs.readFileSync(filePath, "utf8");
@@ -22,6 +22,12 @@ export function getAllBlogs() {
       ...data,
       content,
     };
+  });
+  // Sort by date (newest first)
+  return blogs.sort((a: any, b: any) => {
+    const dateA = new Date(a.date || '1970-01-01');
+    const dateB = new Date(b.date || '1970-01-01');
+    return dateB.getTime() - dateA.getTime();
   });
 }
 
