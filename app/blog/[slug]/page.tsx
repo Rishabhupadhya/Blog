@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import TableOfContents from "@/components/TableOfContents";
 import CodeBlock from "@/components/CodeBlock";
 import ReadingProgress from "@/components/ReadingProgress";
+import { Metadata } from "next";
 
 /* ================================
    Related Blogs Helper
@@ -15,11 +16,38 @@ function getRelatedBlogs(currentSlug: string, limit = 3) {
     .slice(0, limit);
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  try {
+    const { slug } = await params;
+    const blog = getBlogBySlug(slug);
+    const title = (blog as any).title || 'Blog Post';
+    const description = (blog as any).description || '';
+    
+    return {
+      title: `${title} | Blog`,
+      description,
+    };
+  } catch {
+    return {
+      title: 'Post Not Found',
+    };
+  }
+}
+
 export async function generateStaticParams() {
-  const blogs = getAllBlogs();
-  return blogs.map((blog) => ({
-    slug: blog.slug,
-  }));
+  try {
+    const blogs = getAllBlogs();
+    return blogs.map((blog) => ({
+      slug: blog.slug,
+    }));
+  } catch (error) {
+    console.warn('[Blog generateStaticParams] Failed to load posts:', error);
+    return [];
+  }
 }
 
 export default async function BlogDetail({
@@ -37,11 +65,13 @@ export default async function BlogDetail({
   }
 
   // blog is { slug, content, ...frontmatter }
-  const content = blog.content;
-  const title = (blog as any).title || '';
-  const date = (blog as any).date || '';
+  const content = blog?.content || '';
+  const title = blog?.title || '';
+  const date = blog?.date || '';
 
-  if (!title) return notFound();
+  if (!title || !content) {
+    return notFound();
+  }
 
   // Extract headings for table of contents
   const headings = getHeadings(content);

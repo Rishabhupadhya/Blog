@@ -5,12 +5,46 @@ import { notFound } from "next/navigation";
 import TableOfContents from "@/components/TableOfContents";
 import CodeBlock from "@/components/CodeBlock";
 import ReadingProgress from "@/components/ReadingProgress";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  try {
+    const { slug } = await params;
+    const post = getSystemDesignPostBySlug(slug);
+    
+    if (!post) {
+      return { title: 'Post Not Found' };
+    }
+    
+    const title = post?.title ?? 'System Design Post';
+    const description = post?.description ?? '';
+    
+    return {
+      title: `${title} | System Design`,
+      description,
+    };
+  } catch (error) {
+    console.warn('[System Design generateMetadata] Failed to load metadata:', error);
+    return {
+      title: 'Post Not Found',
+    };
+  }
+}
 
 export async function generateStaticParams() {
-  const posts = getAllSystemDesignPosts();
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  try {
+    const posts = getAllSystemDesignPosts();
+    return posts.map((post) => ({
+      slug: post.slug,
+    }));
+  } catch (error) {
+    console.warn('[System Design generateStaticParams] Failed to load posts:', error);
+    return [];
+  }
 }
 
 export default async function SystemDesignDetail({
@@ -27,11 +61,13 @@ export default async function SystemDesignDetail({
     return notFound();
   }
 
-  const content = post.content;
-  const title = (post as any).title || '';
-  const date = (post as any).date || '';
+  const content = post?.content || '';
+  const title = post?.title || '';
+  const date = post?.date || '';
 
-  if (!title) return notFound();
+  if (!title || !content) {
+    return notFound();
+  }
 
   const headings = getHeadings(content);
   const relatedPosts = getRelatedSystemDesignPosts(slug);

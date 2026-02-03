@@ -31,6 +31,7 @@ export default function TechnologyList({ posts = [] }: { posts?: any[] }) {
       filtered = filtered.filter((post) => {
         if (!post.date) return false;
         const postDate = new Date(post.date);
+        if (isNaN(postDate.getTime())) return false;
         const start = new Date(dateRange.start!);
         const end = new Date(dateRange.end!);
         return postDate >= start && postDate <= end;

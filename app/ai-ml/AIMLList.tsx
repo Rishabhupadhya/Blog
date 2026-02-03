@@ -29,7 +29,9 @@ export default function AIMLList({ posts = [] }: { posts?: any[] }) {
     // Apply date range filter if set
     if (dateRange.start && dateRange.end) {
       filtered = filtered.filter((post) => {
+        if (!post.date) return false;
         const postDate = new Date(post.date);
+        if (isNaN(postDate.getTime())) return false;
         const start = new Date(dateRange.start!);
         const end = new Date(dateRange.end!);
         return postDate >= start && postDate <= end;
