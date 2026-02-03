@@ -1,0 +1,240 @@
+---
+
+title: "Microservices Didn’t Make Us Faster — They Made Us Slower"
+
+date: "2026-01-29"
+
+description: "Microservices promised speed and scalability, but for many teams they increased complexity, latency, and cost. Here’s why modular monoliths are making a comeback."
+
+tags: ["system-design", "microservices", "modular-monolith", "backend-engineering", "architecture"]
+
+---
+
+🚨 **Microservices were supposed to make teams faster.**  
+
+For many teams, they did the opposite.
+
+What started as a modern architectural upgrade quietly turned into an **over-engineering trap**.
+
+This post explains **what actually went wrong**, **why modular monoliths are winning again**, and **how to choose architecture based on reality—not trends**.
+
+---
+
+## TL;DR
+
+- Microservices increase **operational complexity**
+
+- Network calls add **latency and failure modes**
+
+- Debugging becomes distributed and slow
+
+- Infrastructure costs rise faster than business value
+
+- Modular monoliths deliver **speed, clarity, and lower cost**
+
+---
+
+## The Promise of Microservices
+
+Microservices promised:
+
+- Independent deployments  
+
+- Team autonomy  
+
+- Elastic scalability  
+
+- Faster development  
+
+In theory, this works — **at massive scale with strong platform teams**.
+
+Most teams don’t operate there.
+
+---
+
+## What Actually Happened
+
+Teams adopting microservices encountered:
+
+- Kubernetes and container orchestration overhead  
+
+- CI/CD pipelines per service  
+
+- Service meshes, retries, timeouts  
+
+- Distributed tracing to debug simple bugs  
+
+- Network calls replacing function calls  
+
+The system became harder to understand than the business logic.
+
+---
+
+## The Hidden Cost: Operational Drag
+
+### 1. Operational Complexity
+
+Every microservice adds:
+
+- Build pipelines  
+
+- Deployments  
+
+- Monitoring  
+
+- Security rules  
+
+Complexity grows **multiplicatively**, not linearly.
+
+---
+
+### 2. Network Latency Everywhere
+
+What used to be:
+Becomes:
+Failures are now **normal**, not exceptional.
+
+---
+
+### 3. Debugging Slows Down
+
+A single request may span:
+
+- Multiple services  
+
+- Multiple databases  
+
+- Queues and workers  
+
+Understanding behavior requires dashboards—not code.
+
+---
+
+### 4. Infrastructure Cost Explosion
+
+Each service consumes:
+
+- Compute
+
+- Network
+
+- Observability
+
+- Idle capacity
+
+📊 **67% of teams (2024) reported microservices increased complexity more than expected.**
+
+---
+
+## Real-World Proof: Amazon Prime Video
+
+Amazon Prime Video migrated a **video monitoring system** from **serverless microservices** to a **modular monolith**.
+
+Results:
+
+- ~90% infra cost reduction  
+
+- Better performance  
+
+- Simpler scaling  
+
+- Fewer operational failures  
+
+Not a rollback — a correction.
+
+---
+
+## Why Modular Monoliths Are Winning Again
+
+A modular monolith is **one deployable unit** with **strong internal boundaries**.
+
+Benefits:
+
+- In-process calls  
+
+- Single deployment pipeline  
+
+- Easier debugging  
+
+- Faster iteration  
+
+You keep modularity **without network overhead**.
+
+---
+
+## Microservices vs Modular Monolith
+
+| Dimension | Microservices | Modular Monolith |
+
+|--------|---------------|------------------|
+
+| Communication | Network calls | Function calls |
+
+| Latency | High | Minimal |
+
+| Failure Modes | Cascading | Local |
+
+| Debugging | Distributed tracing | Stack traces |
+
+| Deployment | Many pipelines | One pipeline |
+
+| Infra Cost | High | Low |
+
+| Best For | Org scale | Dev speed |
+
+---
+
+## Architecture Flow (High-Level)
+
+### Microservices Request Flow
+ Each arrow = **network call + failure risk**
+---
+### Modular Monolith Flow
+Each arrow = **function call**
+---
+## The Same Feature — Two Implementations
+### Microservices (Distributed)
+```ts
+// Order Service
+async function createOrder(req) {
+ const user = await authService.verify(req.token);
+ const price = await pricingService.calculate(req.items);
+ const payment = await paymentService.charge(user.id, price);
+ return saveOrder(user.id, payment.id);
+}
+// OrderModule
+
+function createOrder(userId, items) {
+
+  Auth.verify(userId);
+
+  const price = Pricing.calculate(items);
+
+  const paymentId = Payment.charge(userId, price);
+
+  return OrderRepository.save(userId, paymentId);
+
+}
+ 
+HTTP Request
+
+  ↓
+
+Controller
+
+  ↓
+
+Service Layer
+
+  ↓
+
+Domain Module
+
+  ↓
+
+Database
+
+  ↓
+
+Response
+ 
