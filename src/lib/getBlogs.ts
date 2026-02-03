@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import { Post } from "@/types/post";
+import { getRelatedPosts } from "./getRelatedPosts";
 
 // Export blog utility functions only
 export function getAllBlogs(): Post[] {
@@ -51,8 +52,13 @@ export function getBlogBySlug(slug: string): Post {
 /* ================================
    Related Blogs Helper
 ================================ */
-function getRelatedBlogs(currentSlug: string, limit = 3) {
-  return getAllBlogs()
-    .filter((blog) => blog.slug !== currentSlug)
-    .slice(0, limit);
+function getRelatedBlogs(currentSlug: string, limit = 3): Post[] {
+  const allBlogs = getAllBlogs();
+  const currentBlog = allBlogs.find((blog) => blog.slug === currentSlug);
+  
+  if (!currentBlog) {
+    return allBlogs.filter((blog) => blog.slug !== currentSlug).slice(0, limit);
+  }
+  
+  return getRelatedPosts(allBlogs, currentBlog, limit);
 }

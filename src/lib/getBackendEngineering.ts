@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { Post } from "@/types/post";
+import { getRelatedPosts } from "./getRelatedPosts";
 
 export function getAllBackendEngineeringPosts(): Post[] {
   if (typeof window !== "undefined") {
@@ -46,8 +47,13 @@ export function getBackendEngineeringPostBySlug(slug: string): Post {
   };
 }
 
-export function getRelatedBackendEngineeringPosts(currentSlug: string, limit = 3) {
-  return getAllBackendEngineeringPosts()
-    .filter((post) => post.slug !== currentSlug)
-    .slice(0, limit);
+export function getRelatedBackendEngineeringPosts(currentSlug: string, limit = 3): Post[] {
+  const allPosts = getAllBackendEngineeringPosts();
+  const currentPost = allPosts.find((post) => post.slug === currentSlug);
+  
+  if (!currentPost) {
+    return allPosts.filter((post) => post.slug !== currentSlug).slice(0, limit);
+  }
+  
+  return getRelatedPosts(allPosts, currentPost, limit);
 }

@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { Post } from "@/types/post";
+import { getRelatedPosts } from "./getRelatedPosts";
 
 export function getAllSystemDesignPosts(): Post[] {
   if (typeof window !== "undefined") {
@@ -46,8 +47,14 @@ export function getSystemDesignPostBySlug(slug: string): Post {
   };
 }
 
-export function getRelatedSystemDesignPosts(currentSlug: string, limit = 3) {
-  return getAllSystemDesignPosts()
-    .filter((post) => post.slug !== currentSlug)
-    .slice(0, limit);
+export function getRelatedSystemDesignPosts(currentSlug: string, limit = 3): Post[] {
+  const allPosts = getAllSystemDesignPosts();
+  const currentPost = allPosts.find((post) => post.slug === currentSlug);
+  
+  if (!currentPost) {
+    // Fallback: just filter out current slug and return first N posts
+    return allPosts.filter((post) => post.slug !== currentSlug).slice(0, limit);
+  }
+  
+  return getRelatedPosts(allPosts, currentPost, limit);
 }
