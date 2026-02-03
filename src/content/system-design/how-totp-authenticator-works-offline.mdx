@@ -144,7 +144,7 @@ When you enter a code:
    - Next window (clock drift tolerance)
 3. **If any match** → ✅ Authentication succeeds
 
-**No state is stored between attempts.**
+**Minimal state for replay protection:** While the secret itself is long-lived, secure implementations track the last successful authentication time-step per account (RFC 6238 §5.2) to prevent code reuse within the same window.
 
 ---
 
@@ -182,11 +182,13 @@ Without the secret key, guessing is computationally infeasible.
 
 TOTP-style authentication is used in:
 
-- 🔑 **Hardware security keys** (YubiKey, Titan)
 - 🏦 **Banking MFA**
 - 🔐 **VPN authentication**
 - ☁️ **Cloud provider consoles** (AWS, Azure, GCP)
 - 🏢 **Internal enterprise systems**
+- 📱 **Authenticator apps** across platforms
+
+**Note:** Hardware security keys (YubiKey, Titan) primarily use FIDO2/U2F/WebAuthn (challenge-response), not TOTP. Some models support TOTP as an optional feature.
 
 Anywhere you need **strong auth without constant connectivity**.
 

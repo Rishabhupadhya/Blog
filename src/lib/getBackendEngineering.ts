@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { Post } from "@/types/post";
 
-export function getAllBackendEngineeringPosts() {
+export function getAllBackendEngineeringPosts(): Post[] {
   if (typeof window !== "undefined") {
     throw new Error("getAllBackendEngineeringPosts can only be run on the server");
   }
@@ -30,7 +31,7 @@ export function getAllBackendEngineeringPosts() {
   });
 }
 
-export function getBackendEngineeringPostBySlug(slug: string) {
+export function getBackendEngineeringPostBySlug(slug: string): Post {
   if (typeof window !== "undefined") {
     throw new Error("getBackendEngineeringPostBySlug can only be run on the server");
   }

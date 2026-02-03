@@ -3,9 +3,10 @@ import path from "path";
 import matter from "gray-matter";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
+import { Post } from "@/types/post";
 
 // Export blog utility functions only
-export function getAllBlogs() {
+export function getAllBlogs(): Post[] {
   // Only run on the server
   if (typeof window !== "undefined") {
     throw new Error("getAllBlogs can only be run on the server");
@@ -31,7 +32,7 @@ export function getAllBlogs() {
   });
 }
 
-export function getBlogBySlug(slug: string) {
+export function getBlogBySlug(slug: string): Post {
   // Only run on the server
   if (typeof window !== "undefined") {
     throw new Error("getBlogBySlug can only be run on the server");

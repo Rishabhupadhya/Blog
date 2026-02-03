@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { Post } from "@/types/post";
 
-export function getAllSystemDesignPosts() {
+export function getAllSystemDesignPosts(): Post[] {
   if (typeof window !== "undefined") {
     throw new Error("getAllSystemDesignPosts can only be run on the server");
   }
@@ -30,7 +31,7 @@ export function getAllSystemDesignPosts() {
   });
 }
 
-export function getSystemDesignPostBySlug(slug: string) {
+export function getSystemDesignPostBySlug(slug: string): Post {
   if (typeof window !== "undefined") {
     throw new Error("getSystemDesignPostBySlug can only be run on the server");
   }

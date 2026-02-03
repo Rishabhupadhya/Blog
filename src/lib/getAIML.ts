@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { Post } from "@/types/post";
 
-export function getAllAIMLPosts() {
+export function getAllAIMLPosts(): Post[] {
   if (typeof window !== "undefined") {
     throw new Error("getAllAIMLPosts can only be run on the server");
   }
@@ -30,7 +31,7 @@ export function getAllAIMLPosts() {
   });
 }
 
-export function getAIMLPostBySlug(slug: string) {
+export function getAIMLPostBySlug(slug: string): Post {
   if (typeof window !== "undefined") {
     throw new Error("getAIMLPostBySlug can only be run on the server");
   }

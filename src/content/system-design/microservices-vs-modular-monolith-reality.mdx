@@ -250,30 +250,39 @@ export async function createOrder(input: unknown) {
   Auth.ensureUserCanOrder(userId);
   const price = Pricing.calculate(items, currency);
 
-  return await db.transaction(async (tx) => {
-    // Check idempotency
+  // First transaction: Check idempotency and create provisional order
+  const provisional = await db.transaction(async (tx) => {
     const existing = await tx.order.findUnique({ where: { idempotencyKey } });
-    if (existing) return { orderId: existing.id, reused: true };
+    if (existing) return existing;
 
-    // Create provisional order
-    const provisional = await tx.order.create({
+    return await tx.order.create({
       data: { userId, amount: price.total, currency, status: "PAYMENT_PENDING", idempotencyKey },
     });
-
-    // External side-effect
-    const payment = await PaymentGateway.charge({ 
-      customerId: userId, 
-      amount: price.total, 
-      currency, 
-      idempotencyKey 
-    });
-
-    // Update and publish
-    await tx.order.update({ where: { id: provisional.id }, data: { status: "PAID", paymentId: payment.id } });
-    await Outbox.add(tx, "order.created", { orderId: provisional.id, items });
-
-    return { orderId: provisional.id };
   });
+
+  // If order already existed, return early
+  if (provisional.status === "PAID") {
+    return { orderId: provisional.id, reused: true };
+  }
+
+  // External side-effect (outside transaction)
+  const payment = await PaymentGateway.charge({ 
+    customerId: userId, 
+    amount: price.total, 
+    currency, 
+    idempotencyKey 
+  });
+
+  // Second transaction: Update order and publish event
+  await db.transaction(async (tx) => {
+    await tx.order.update({ 
+      where: { id: provisional.id }, 
+      data: { status: "PAID", paymentId: payment.id } 
+    });
+    await Outbox.add(tx, "order.created", { orderId: provisional.id, items });
+  });
+
+  return { orderId: provisional.id };
 }
 ```
 

@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { Post } from "@/types/post";
 
-export function getAllCloudDevOpsPosts() {
+export function getAllCloudDevOpsPosts(): Post[] {
   if (typeof window !== "undefined") {
     throw new Error("getAllCloudDevOpsPosts can only be run on the server");
   }
@@ -30,7 +31,7 @@ export function getAllCloudDevOpsPosts() {
   });
 }
 
-export function getCloudDevOpsPostBySlug(slug: string) {
+export function getCloudDevOpsPostBySlug(slug: string): Post {
   if (typeof window !== "undefined") {
     throw new Error("getCloudDevOpsPostBySlug can only be run on the server");
   }
