@@ -10,6 +10,7 @@ import SelectionAssistant from "@/components/SelectionAssistant";
 import { Metadata } from "next";
 import Link from "next/link";
 import FadeIn from "@/components/FadeIn";
+import SharePerspective from "@/components/SharePerspective";
 
 export async function generateMetadata({
   params,
@@ -194,14 +195,7 @@ export default async function AIMLDetail({
                 <TableOfContents headings={headings} />
               </div>
 
-              <div className="pt-8 border-t border-[#E8E8E6] mt-auto">
-                <h4 className="text-eyebrow text-[#1C1C1C] mb-4">Share Perspective</h4>
-                <div className="flex gap-4">
-                  {['Twitter', 'LinkedIn', 'Copy'].map(platform => (
-                    <button key={platform} className="text-meta text-[#9A9A9A] hover:text-[#1C1C1C] transition-colors uppercase tracking-widest">{platform}</button>
-                  ))}
-                </div>
-              </div>
+              <SharePerspective title={title} />
             </div>
           </aside>
         </div>

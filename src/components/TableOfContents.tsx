@@ -49,7 +49,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
       <h3 className="text-eyebrow text-[#1C1C1C] mb-8 pb-4 border-b border-[#E8E8E6]">
         On This Page
       </h3>
-      <ul className="space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto pr-4 scrollbar-subtle scroll-py-4">
+      <ul className="space-y-4 pr-2 scroll-py-4">
         {headings.map((heading) => (
           <li
             key={heading.id}
