@@ -1,14 +1,24 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import { FaArrowLeft } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 export default function BackButton() {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Don't show on homepage
-  if (pathname === "/") {
+  // Don't show on homepage or category pages
+  const isHomePage = pathname === "/";
+  const isCategoryPage = [
+    "/technology",
+    "/system-design", 
+    "/backend-engineering",
+    "/cloud-devops",
+    "/ai-ml",
+    "/blog"
+  ].includes(pathname);
+
+  if (isHomePage || isCategoryPage) {
     return null;
   }
 
@@ -17,40 +27,37 @@ export default function BackButton() {
   };
 
   return (
-    <button
+    <motion.button
       onClick={handleBack}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.2, delay: 0.3 }}
       className="
         fixed
-        left-4
-        sm:left-6
+        left-6
         lg:left-8
-        top-20
-        sm:top-24
+        top-24
         z-40
-        w-10
-        h-10
-        sm:w-12
-        sm:h-12
         flex
         items-center
-        justify-center
-        bg-black/80
-        backdrop-blur-sm
-        border
-        border-white/10
-        rounded-full
-        text-cyan-400
-        hover:bg-cyan-400/10
-        hover:border-cyan-400/50
-        hover:scale-110
-        transition-all
-        duration-300
-        shadow-lg
-        hover:shadow-cyan-400/50
+        gap-2
+        text-[#6B6B6B]
+        hover:text-[#1C1C1C]
+        transition-colors
+        duration-200
       "
       aria-label="Go back"
     >
-      <FaArrowLeft className="text-sm sm:text-base" />
-    </button>
+      <svg 
+        className="w-4 h-4" 
+        fill="none" 
+        stroke="currentColor" 
+        strokeWidth={1.5}
+        viewBox="0 0 24 24"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      <span className="text-eyebrow hidden sm:inline">Back</span>
+    </motion.button>
   );
 }

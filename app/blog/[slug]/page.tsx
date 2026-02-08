@@ -5,7 +5,12 @@ import { notFound } from "next/navigation";
 import TableOfContents from "@/components/TableOfContents";
 import CodeBlock from "@/components/CodeBlock";
 import ReadingProgress from "@/components/ReadingProgress";
+import ScrollReveal from "@/components/ScrollReveal";
+import AIAssistant from "@/components/AIAssistant";
 import { Metadata } from "next";
+
+import Link from "next/link";
+import FadeIn from "@/components/FadeIn";
 
 /* ================================
    Related Blogs Helper
@@ -26,7 +31,7 @@ export async function generateMetadata({
     const blog = getBlogBySlug(slug);
     const title = (blog as any).title || 'Blog Post';
     const description = (blog as any).description || '';
-    
+
     return {
       title: `${title} | Blog`,
       description,
@@ -80,105 +85,108 @@ export default async function BlogDetail({
   const relatedBlogs = getRelatedBlogs(slug);
 
   return (
-    <main className="min-h-screen px-4 sm:px-6 lg:px-8 py-28 bg-gradient-to-b from-black via-black to-cyan-950">
-      
-      {/* ===== READING PROGRESS BAR ===== */}
+    <main className="min-h-screen bg-[#F9F9F8] pt-32 pb-24">
       <ReadingProgress />
-      
-      {/* ===== TABLE OF CONTENTS ===== */}
-      <TableOfContents headings={headings} />
 
-      <article className="max-w-4xl mx-auto w-full overflow-hidden">
+      <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 text-black">
+        <article className="max-w-[720px] w-full">
+          <FadeIn>
+            <span className="text-xs font-bold uppercase tracking-widest text-[#555555] mb-4 block">
+              Perspective
+            </span>
+            <h1 className="text-EDITORIAL-TITLE font-bold text-[#1A1A1A] mb-4 leading-tight text-4xl md:text-5xl">
+              {title}
+            </h1>
 
-          {/* ===== TITLE ===== */}
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-cyan-400">
-            {title}
-          </h1>
+            <div className="flex items-center gap-4 text-xs font-medium text-[#555555] mb-12">
+              <time>{date}</time>
+            </div>
 
-          {/* ===== META ===== */}
-          <p className="text-sm text-gray-400 mb-10">
-            {date}
-          </p>
+            <div className="h-px w-full bg-[#E5E5E1] mb-12" />
 
-          {/* ===== DIVIDER ===== */}
-          <div className="h-[2px] w-24 bg-cyan-400 mb-12" />
+            <div
+              className="
+                prose
+                prose-slate
+                max-w-none
+                prose-headings:text-[#1A1A1A]
+                prose-headings:font-bold
+                prose-headings:tracking-tight
+                prose-p:text-[#1A1A1A]
+                prose-p:leading-[1.75]
+                prose-a:text-[#334155]
+                prose-a:underline
+                prose-a:underline-offset-4
+                prose-strong:text-[#1A1A1A]
+                prose-code:text-[#334155]
+                prose-code:bg-[#334155]/5
+                prose-code:px-1.5
+                prose-code:py-0.5
+                prose-code:rounded
+                prose-code:before:content-none
+                prose-code:after:content-none
+                prose-pre:bg-[#FFFFFF]
+                prose-pre:border
+                prose-pre:border-[#E5E5E1]
+                prose-pre:rounded-sm
+                prose-pre:p-0
+                prose-img:rounded-md
+                prose-img:shadow-sm
+              "
+            >
+              <MDXRemote
+                source={content}
+                components={{
+                  h2: ({ children, ...props }) => {
+                    const id = String(children).toLowerCase().replace(/[^\w]+/g, "-");
+                    return <h2 id={id} className="text-2xl mt-12 mb-6" {...props}>{children}</h2>;
+                  },
+                  h3: ({ children, ...props }) => {
+                    const id = String(children).toLowerCase().replace(/[^\w]+/g, "-");
+                    return <h3 id={id} className="text-xl mt-8 mb-4" {...props}>{children}</h3>;
+                  },
+                  pre: ({ children }) => <CodeBlock>{children}</CodeBlock>,
+                }}
+              />
+            </div>
+          </FadeIn>
 
-          {/* ===== BLOG CONTENT ===== */}
-          <div
-            className="
-              prose prose-invert
-              prose-sm sm:prose-base
-              prose-headings:text-cyan-400
-              prose-headings:scroll-mt-20
-              prose-a:text-cyan-400
-              prose-a:break-words
-              prose-strong:text-white
-              prose-code:text-cyan-300
-              prose-code:break-words
-              prose-pre:bg-black/40
-              prose-pre:border
-              prose-pre:border-white/10
-              prose-pre:rounded-xl
-              prose-pre:overflow-x-auto
-              max-w-none
-              break-words
-              overflow-wrap-anywhere
-            "
-          >          <MDXRemote 
-            source={content}
-            components={{
-              h2: ({ children, ...props }) => {
-                const id = String(children).toLowerCase().replace(/[^\w]+/g, "-");
-                return <h2 id={id} {...props}>{children}</h2>;
-              },
-              h3: ({ children, ...props }) => {
-                const id = String(children).toLowerCase().replace(/[^\w]+/g, "-");
-                return <h3 id={id} {...props}>{children}</h3>;
-              },
-              pre: ({ children }) => <CodeBlock>{children}</CodeBlock>,
-            }}
-          />
-          </div>
-
-          {/* ===== RELATED POSTS ===== */}
           {relatedBlogs.length > 0 && (
-            <section className="mt-32">
-              <h2 className="text-2xl font-bold text-cyan-400 mb-8">
-                Related Posts
-              </h2>
+            <ScrollReveal preset="fade" delay={0.2}>
+              <section className="mt-32 border-t border-[#E5E5E1] pt-16">
+                <h2 className="text-2xl font-bold text-[#1A1A1A] mb-10">
+                  Continue Reading
+                </h2>
 
-              <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {relatedBlogs.map((post) => (
-                  <a
-                    key={post.slug}
-                    href={`/blog/${post.slug}`}
-                    className="
-                      group
-                      block
-                      p-6
-                      rounded-2xl
-                      border
-                      border-white/10
-                      bg-black/40
-                      transition-all
-                      hover:-translate-y-1
-                      hover:border-cyan-400
-                      hover:shadow-[0_12px_50px_-15px_rgba(34,211,238,0.45)]
-                    "
-                  >
-                    <h3 className="text-lg font-semibold mb-2 group-hover:text-cyan-400 transition">
-                      {'title' in post ? (post as any).title : 'Untitled'}
-                    </h3>
-                    <p className="text-sm text-gray-400">
-                      {'date' in post ? (post as any).date : ''}
-                    </p>
-                  </a>
-                ))}
-              </div>
-            </section>
+                <div className="grid gap-12">
+                  {relatedBlogs.map((post, index) => (
+                    <ScrollReveal key={post.slug} preset="slide" direction="up" delay={index * 0.1}>
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="group block"
+                      >
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#555555] mb-2 block opacity-60">
+                          {'date' in post ? (post as any).date : ''}
+                        </span>
+                        <h3 className="text-xl font-bold text-[#1A1A1A] group-hover:underline decoration-[#334155] underline-offset-4 decoration-1 transition-all">
+                          {'title' in post ? (post as any).title : 'Untitled'}
+                        </h3>
+                      </Link>
+                    </ScrollReveal>
+                  ))}
+                </div>
+              </section>
+            </ScrollReveal>
           )}
-
         </article>
+
+        <aside className="hidden lg:block sticky top-32 h-fit">
+          <TableOfContents headings={headings} />
+        </aside>
+      </div>
+
+      {/* AI Reading Assistant */}
+      <AIAssistant />
     </main>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 interface Heading {
   id: string;
@@ -14,7 +15,6 @@ interface TableOfContentsProps {
 
 export default function TableOfContents({ headings }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>("");
-  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -39,86 +39,37 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
   if (headings.length === 0) return null;
 
   return (
-    <>
-      {/* Desktop TOC - Fixed Sidebar (shows on large screens) */}
-      <nav className="hidden lg:block fixed top-32 right-8 w-64 z-10">
-        <div className="bg-black/60 backdrop-blur-sm border border-cyan-400/30 rounded-xl p-6 shadow-lg">
-          <h3 className="text-sm font-semibold text-cyan-400 mb-4 uppercase tracking-wider">
-            On This Page
-          </h3>
-          <ul className="space-y-2 max-h-[60vh] overflow-y-auto">
-            {headings.map((heading) => (
-              <li
-                key={heading.id}
-                className={heading.level === 3 ? "ml-4" : ""}
-              >
-                <a
-                  href={`#${heading.id}`}
-                  className={`
-                    text-sm block transition-colors
-                    ${
-                      activeId === heading.id
-                        ? "text-cyan-400 font-medium"
-                        : "text-gray-400 hover:text-cyan-300"
-                    }
-                  `}
-                >
-                  {heading.text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </nav>
-
-      {/* Mobile TOC - Floating Button (shows on mobile and tablet) */}
-      <div className="lg:hidden fixed bottom-8 right-8 z-50">
-        {isOpen && (
-          <div className="mb-4 bg-black/90 backdrop-blur-sm border border-cyan-400/30 rounded-xl p-6 shadow-2xl max-w-xs">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold text-cyan-400 uppercase tracking-wider">
-                On This Page
-              </h3>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-gray-400 hover:text-cyan-400 transition"
-              >
-                ✕
-              </button>
-            </div>
-            <ul className="space-y-2 max-h-[50vh] overflow-y-auto">
-              {headings.map((heading) => (
-                <li
-                  key={heading.id}
-                  className={heading.level === 3 ? "ml-4" : ""}
-                >
-                  <a
-                    href={`#${heading.id}`}
-                    onClick={() => setIsOpen(false)}
-                    className={`
-                      text-sm block transition-colors
-                      ${
-                        activeId === heading.id
-                          ? "text-cyan-400 font-medium"
-                          : "text-gray-400 hover:text-cyan-300"
-                      }
-                    `}
-                  >
-                    {heading.text}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-14 h-14 rounded-full bg-cyan-400 text-black font-bold shadow-lg hover:bg-cyan-300 transition flex items-center justify-center"
-          aria-label="Toggle Table of Contents"
-        >
-          {isOpen ? "✕" : "☰"}
-        </button>
-      </div>
-    </>
+    <motion.nav 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3, delay: 0.4 }}
+      className="fixed w-56"
+      aria-label="Table of contents"
+    >
+      <h3 className="text-eyebrow text-[#9A9A9A] mb-6">
+        On This Page
+      </h3>
+      <ul className="space-y-3 max-h-[65vh] overflow-y-auto pr-4 scrollbar-subtle">
+        {headings.map((heading) => (
+          <li
+            key={heading.id}
+            style={{ paddingLeft: `${(heading.level - 2) * 12}px` }}
+          >
+            <a
+              href={`#${heading.id}`}
+              className={`
+                text-[13px] block transition-all duration-200 leading-relaxed
+                ${activeId === heading.id
+                  ? "text-[#1C1C1C] font-medium"
+                  : "text-[#6B6B6B] hover:text-[#1C1C1C]"
+                }
+              `}
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </motion.nav>
   );
 }

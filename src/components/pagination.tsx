@@ -42,63 +42,44 @@ export default function Pagination({
   };
 
   return (
-    <nav className="flex items-center gap-2">
-      {/* First and Prev - only show if multiple pages */}
+    <nav className="flex items-center gap-1" aria-label="Pagination">
+      {/* Prev */}
       {totalPages > 1 && (
-        <>
-          <PageLink
-            page={1}
-            className="px-4 py-2 border border-gray-700 rounded-md text-gray-400 hover:text-cyan-400 hover:border-cyan-400 transition"
-            ariaLabel="First page"
-          >
-            ««
-          </PageLink>
-
-          <PageLink
-            page={Math.max(currentPage - 1, 1)}
-            className="px-4 py-2 border border-gray-700 rounded-md text-gray-400 hover:text-cyan-400 hover:border-cyan-400 transition"
-            ariaLabel="Previous page"
-          >
-            «
-          </PageLink>
-        </>
+        <PageLink
+          page={Math.max(currentPage - 1, 1)}
+          className="px-3 py-2 text-eyebrow text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors duration-150"
+          ariaLabel="Previous page"
+        >
+          Prev
+        </PageLink>
       )}
 
-      {/* Page Numbers - Always show */}
-      {pages.map((page) => (
-        <PageLink
-          key={page}
-          page={page}
-          className={`px-4 py-2 border rounded-md transition ${
-            page === currentPage
-              ? "bg-cyan-400 text-black font-bold border-cyan-400"
-              : "border-gray-700 text-gray-400 hover:text-cyan-400 hover:border-cyan-400"
-          }`}
-          ariaLabel={`Page ${page}`}
-        >
-          {page}
-        </PageLink>
-      ))}
+      {/* Page Numbers */}
+      <div className="flex items-center gap-1 mx-4">
+        {pages.map((page) => (
+          <PageLink
+            key={page}
+            page={page}
+            className={`w-9 h-9 flex items-center justify-center text-sm font-mono transition-all duration-150 rounded-sm ${page === currentPage
+                ? "bg-[#1C1C1C] text-white"
+                : "text-[#6B6B6B] hover:bg-[#E8E8E6] hover:text-[#1C1C1C]"
+              }`}
+            ariaLabel={`Page ${page}`}
+          >
+            {page}
+          </PageLink>
+        ))}
+      </div>
 
-      {/* Next and Last - only show if multiple pages */}
+      {/* Next */}
       {totalPages > 1 && (
-        <>
-          <PageLink
-            page={Math.min(currentPage + 1, totalPages)}
-            className="px-4 py-2 border border-gray-700 rounded-md text-gray-400 hover:text-cyan-400 hover:border-cyan-400 transition"
-            ariaLabel="Next page"
-          >
-            »
-          </PageLink>
-
-          <PageLink
-            page={totalPages}
-            className="px-4 py-2 border border-gray-700 rounded-md text-gray-400 hover:text-cyan-400 hover:border-cyan-400 transition"
-            ariaLabel="Last page"
-          >
-            »»
-          </PageLink>
-        </>
+        <PageLink
+          page={Math.min(currentPage + 1, totalPages)}
+          className="px-3 py-2 text-eyebrow text-[#6B6B6B] hover:text-[#1C1C1C] transition-colors duration-150"
+          ariaLabel="Next page"
+        >
+          Next
+        </PageLink>
       )}
     </nav>
   );

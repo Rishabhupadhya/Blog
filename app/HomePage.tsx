@@ -2,48 +2,37 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaCode, FaCubes, FaServer, FaCloud, FaBrain } from "react-icons/fa";
 
 const categories = [
   {
-    title: "Technology",
-    description: "Explore the latest in tech trends, tutorials, and insights across various domains",
-    icon: FaCode,
-    href: "/technology",
-    color: "from-cyan-500 to-blue-500",
-    image: "🚀",
-  },
-  {
     title: "System Design",
-    description: "Master scalable architecture, distributed systems, and design patterns",
-    icon: FaCubes,
+    description: "Architecting scalable, resilient, and high-performance distributed systems at scale.",
     href: "/system-design",
-    color: "from-purple-500 to-pink-500",
-    image: "🏗️",
+    count: 4,
   },
   {
     title: "Backend Engineering",
-    description: "Deep dive into APIs, databases, performance optimization, and server-side development",
-    icon: FaServer,
+    description: "Deep technical dives into APIs, databases, and JVM performance optimization.",
     href: "/backend-engineering",
-    color: "from-green-500 to-teal-500",
-    image: "⚙️",
+    count: 3,
   },
   {
     title: "Cloud & DevOps",
-    description: "Learn cloud platforms, containerization, CI/CD, and infrastructure automation",
-    icon: FaCloud,
+    description: "Modern infrastructure, container orchestration, and automated delivery pipelines.",
     href: "/cloud-devops",
-    color: "from-blue-500 to-indigo-500",
-    image: "☁️",
+    count: 3,
   },
   {
     title: "AI & ML",
-    description: "Discover machine learning algorithms, neural networks, and artificial intelligence",
-    icon: FaBrain,
+    description: "Practical applications of machine learning and large language models in production.",
     href: "/ai-ml",
-    color: "from-orange-500 to-red-500",
-    image: "🤖",
+    count: 3,
+  },
+  {
+    title: "Technology",
+    description: "Editorial perspectives on software, hardware, and the future of tech.",
+    href: "/technology",
+    count: 4,
   },
 ];
 
@@ -52,215 +41,129 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15,
+      staggerChildren: 0.08,
+      delayChildren: 0.15,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
+  hidden: { y: 16, opacity: 0 },
   visible: {
     y: 0,
     opacity: 1,
-    transition: {
-      type: "spring" as const,
-      stiffness: 100,
-    },
+    transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black overflow-hidden">
-      
+    <main className="min-h-screen bg-[#FAFAF9] pt-32 pb-24">
       {/* Hero Section */}
-      <section className="relative px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-16 sm:pb-20 overflow-hidden">
-        {/* Animated background gradient */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent break-words">
-              Techies Journal
-
-            </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-4 break-words px-2">
-              Your gateway to System Design, Backend Engineering, Cloud & AI
-            </p>
-            <p className="text-sm sm:text-base text-gray-400 max-w-3xl mx-auto break-words px-4">
-              Dive deep into cutting-edge technologies, learn best practices, and stay ahead in the ever-evolving tech landscape
-            </p>
-          </motion.div>
-        </div>
+      <section className="max-w-5xl mx-auto px-6 mb-28">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-3xl"
+        >
+          <span className="text-eyebrow text-[#9A9A9A] mb-5 block">
+            Engineering Journal
+          </span>
+          <h1 className="text-page-title font-bold text-[#1C1C1C] mb-8 leading-[1.12] tracking-tight text-4xl md:text-5xl">
+            Thoughtful perspectives on <br className="hidden md:block" />
+            <span className="text-[#6B6B6B]">modern software architecture.</span>
+          </h1>
+          <p className="text-base text-[#6B6B6B] leading-[1.7] max-w-2xl mb-10">
+            A curated collection of deep dives into system design, backend engineering, and the evolving landscape of cloud infrastructure. Created for developers, by developers.
+          </p>
+          <div className="flex gap-4">
+            <Link
+              href="/technology"
+              className="px-6 py-3 bg-[#1C1C1C] text-white text-sm font-medium rounded-sm hover:bg-[#2D2D2D] transition-colors duration-200"
+            >
+              Start Reading
+            </Link>
+          </div>
+        </motion.div>
       </section>
 
-      {/* Categories Grid */}
-      <section className="px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="max-w-7xl mx-auto w-full overflow-hidden">
+      {/* Categories / Sections */}
+      <section className="max-w-5xl mx-auto px-6">
+        <div className="border-t border-[#E8E8E6] pt-20">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+            className="flex justify-between items-end mb-14"
+          >
+            <div>
+              <h2 className="text-section-header font-bold text-[#1C1C1C]">Curated Categories</h2>
+              <p className="text-[#6B6B6B] text-sm mt-2">Focused deep-dives into specific domains.</p>
+            </div>
+          </motion.div>
+
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16"
           >
-            {categories.map((category, index) => {
-              const IconComponent = category.icon;
-              return (
-                <motion.div key={category.href} variants={itemVariants}>
-                  <Link href={category.href} prefetch={true}>
-                    <div className="group relative h-full">
-                      {/* Card */}
-                      <div
-                        className="
-                          relative
-                          h-full
-                          bg-gradient-to-br from-black/80 to-gray-900/80
-                          backdrop-blur-sm
-                          border border-white/10
-                          rounded-3xl
-                          p-8
-                          overflow-hidden
-                          transition-all
-                          duration-500
-                          hover:border-cyan-400/50
-                          hover:shadow-[0_20px_60px_-15px_rgba(34,211,238,0.5)]
-                          hover:-translate-y-2
-                        "
-                      >
-                        {/* Gradient overlay on hover */}
-                        <div
-                          className={`
-                            absolute inset-0 opacity-0 group-hover:opacity-10
-                            bg-gradient-to-br ${category.color}
-                            transition-opacity duration-500
-                          `}
-                        />
-
-                        {/* Content */}
-                        <div className="relative z-10">
-                          {/* Icon & Emoji */}
-                          <div className="flex items-center justify-between mb-6">
-                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                              <IconComponent className="text-3xl text-cyan-400" />
-                            </div>
-                            <span className="text-5xl group-hover:scale-125 transition-transform duration-500">
-                              {category.image}
-                            </span>
-                          </div>
-
-                          {/* Title */}
-                          <h2 className="text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors duration-300">
-                            {category.title}
-                          </h2>
-
-                          {/* Description */}
-                          <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                            {category.description}
-                          </p>
-
-                          {/* CTA */}
-                          <div className="flex items-center text-cyan-400 text-sm font-semibold group-hover:gap-3 gap-2 transition-all duration-300">
-                            <span>Explore</span>
-                            <svg
-                              className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M17 8l4 4m0 0l-4 4m4-4H3"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-
-                        {/* Animated border gradient */}
-                        <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                          <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${category.color} blur-xl opacity-50`} />
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
+            {categories.map((category) => (
+              <motion.div key={category.href} variants={itemVariants} className="group">
+                <Link href={category.href} className="block">
+                  <div className="flex items-start justify-between mb-4">
+                    <span className="text-meta font-mono text-[#9A9A9A]">0{categories.indexOf(category) + 1}</span>
+                    <span className="text-eyebrow text-[#6B6B6B] border border-[#E8E8E6] px-2 py-1 rounded-sm group-hover:border-[#1C1C1C] group-hover:text-[#1C1C1C] transition-all duration-200">
+                      {category.count} Articles
+                    </span>
+                  </div>
+                  <h3 className="text-section-header font-bold text-[#1C1C1C] mb-3 relative inline-block">
+                    {category.title}
+                    <span className="absolute left-0 -bottom-0.5 w-0 h-[1px] bg-[#1C1C1C] transition-all duration-200 group-hover:w-full" />
+                  </h3>
+                  <p className="text-[#6B6B6B] text-sm leading-relaxed mb-5">
+                    {category.description}
+                  </p>
+                  <div className="flex items-center text-eyebrow text-[#1C1C1C]">
+                    <span>Explore Section</span>
+                    <svg
+                      className="w-3 h-3 ml-2 transform transition-transform duration-200 group-hover:translate-x-1"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto w-full overflow-hidden">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center"
+      {/* CTA Footer */}
+      <section className="max-w-5xl mx-auto px-6 mt-32">
+        <motion.div 
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          className="bg-white border border-[#E8E8E6] p-14 text-center rounded-sm"
+        >
+          <h2 className="text-section-header font-bold text-[#1C1C1C] mb-3">Join the conversation.</h2>
+          <p className="text-sm text-[#6B6B6B] mb-8 max-w-sm mx-auto leading-relaxed">
+            Stay updated with the latest in backend engineering and system design.
+          </p>
+          <Link
+            href="mailto:rishabh.292002@gmail.com"
+            className="inline-block px-8 py-3 border border-[#1C1C1C] text-[#1C1C1C] text-eyebrow hover:bg-[#1C1C1C] hover:text-white transition-colors duration-200"
           >
-            <div className="p-4 sm:p-6 rounded-2xl bg-black/40 border border-white/10">
-              <div className="text-3xl sm:text-4xl font-bold text-cyan-400 mb-2">12+</div>
-              <div className="text-gray-400 text-xs sm:text-sm">Articles</div>
-            </div>
-            <div className="p-4 sm:p-6 rounded-2xl bg-black/40 border border-white/10">
-              <div className="text-3xl sm:text-4xl font-bold text-purple-400 mb-2">5</div>
-              <div className="text-gray-400 text-xs sm:text-sm">Categories</div>
-            </div>
-            <div className="p-4 sm:p-6 rounded-2xl bg-black/40 border border-white/10">
-              <div className="text-3xl sm:text-4xl font-bold text-green-400 mb-2">100%</div>
-              <div className="text-gray-400 text-xs sm:text-sm">Free Content</div>
-            </div>
-            <div className="p-4 sm:p-6 rounded-2xl bg-black/40 border border-white/10">
-              <div className="text-3xl sm:text-4xl font-bold text-orange-400 mb-2">∞</div>
-              <div className="text-gray-400 text-xs sm:text-sm">Learning</div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-        <div className="max-w-4xl mx-auto text-center w-full overflow-hidden">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-400/30 rounded-3xl p-8 sm:p-12"
-          >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 break-words">
-              Ready to Level Up Your Skills?
-            </h2>
-            <p className="text-sm sm:text-base text-gray-300 mb-6 sm:mb-8 break-words px-2">
-              Choose a category above and start your learning journey today
-            </p>
-            <Link
-              href="/technology"
-              prefetch={true}
-              className="
-                inline-block
-                px-8 py-4
-                bg-gradient-to-r from-cyan-500 to-purple-500
-                text-white font-semibold rounded-full
-                hover:shadow-[0_20px_60px_-15px_rgba(34,211,238,0.8)]
-                hover:scale-105
-                transition-all duration-300
-              "
-            >
-              Start Reading
-            </Link>
-          </motion.div>
-        </div>
+            Get in touch
+          </Link>
+        </motion.div>
       </section>
     </main>
   );

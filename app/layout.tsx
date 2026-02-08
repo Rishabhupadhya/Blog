@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import PageTransition from "@/components/PageTransition";
 import ScrollRestoration from "@/components/ScrollRestoration";
 import BackButton from "@/components/BackButton";
+import { AmbientBackground } from "@/components/Parallax";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,8 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
       >
+        <AmbientBackground />
         <Navbar />
         <BackButton />
         <PageTransition>

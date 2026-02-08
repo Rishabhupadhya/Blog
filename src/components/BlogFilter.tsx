@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { HiOutlineFilter } from "react-icons/hi";
+import { motion, AnimatePresence } from "framer-motion";
 
 export type SortOrder = "newest" | "oldest" | "date-range";
 
@@ -47,97 +48,94 @@ export default function BlogFilter({ onSortChange }: BlogFilterProps) {
     onSortChange("newest");
   };
 
+  const options = [
+    { label: "Newest", value: "newest" as SortOrder },
+    { label: "Oldest", value: "oldest" as SortOrder },
+    { label: "Date Range", value: "date-range" as SortOrder },
+  ];
+
   return (
-    <div className="mb-8">
-      {/* Hamburger Filter Button */}
+    <div className="mb-12">
       <button
         onClick={() => setIsFilterOpen(!isFilterOpen)}
-        className="flex items-center gap-2 px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-all mb-4"
+        className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#1A1A1A] hover:opacity-60 transition-opacity mb-6"
       >
-        <HiOutlineFilter className="text-xl" />
-        <span>Filter Posts</span>
+        <HiOutlineFilter className="text-sm" />
+        <span>Filter & Sort</span>
       </button>
 
-      {/* Filter Options - Only visible when isFilterOpen is true */}
-      {isFilterOpen && (
-        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-          <div className="flex flex-wrap gap-3">
-            <button
-              onClick={() => handleSortChange("newest")}
-              className={`px-4 py-2 rounded-lg transition-all ${
-                sortOrder === "newest"
-                  ? "bg-cyan-500 text-white"
-                  : "bg-white/10 text-gray-300 hover:bg-white/20"
-              }`}
-            >
-              Newest First
-            </button>
-            <button
-              onClick={() => handleSortChange("oldest")}
-              className={`px-4 py-2 rounded-lg transition-all ${
-                sortOrder === "oldest"
-                  ? "bg-cyan-500 text-white"
-                  : "bg-white/10 text-gray-300 hover:bg-white/20"
-              }`}
-            >
-              Oldest First
-            </button>
-            <button
-              onClick={() => handleSortChange("date-range")}
-              className={`px-4 py-2 rounded-lg transition-all ${
-                sortOrder === "date-range"
-                  ? "bg-cyan-500 text-white"
-                  : "bg-white/10 text-gray-300 hover:bg-white/20"
-              }`}
-            >
-              Date Range
-            </button>
-          </div>
-
-          {showDatePicker && (
-            <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center p-4 bg-white/5 rounded-lg border border-white/10">
-              {dateError && (
-                <p className="text-red-400 text-sm w-full">{dateError}</p>
-              )}
-              <div className="flex flex-col sm:flex-row gap-3">
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs text-gray-400">From</label>
-                  <input
-                    type="date"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    className="px-3 py-2 bg-black/40 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-cyan-400"
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs text-gray-400">To</label>
-                  <input
-                    type="date"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    className="px-3 py-2 bg-black/40 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-cyan-400"
-                  />
-                </div>
-              </div>
-              <div className="flex gap-2 mt-2 sm:mt-6">
+      <AnimatePresence>
+        {isFilterOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="space-y-6"
+          >
+            <div className="flex flex-wrap gap-6">
+              {options.map((opt) => (
                 <button
-                  onClick={applyDateFilter}
-                  disabled={!startDate || !endDate}
-                  className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                  key={opt.value}
+                  onClick={() => handleSortChange(opt.value)}
+                  className={`text-xs font-bold uppercase tracking-widest transition-all ${sortOrder === opt.value
+                      ? "text-[#1A1A1A] underline underline-offset-4 decoration-2"
+                      : "text-[#555555] hover:text-[#1A1A1A]"
+                    }`}
                 >
-                  Apply
+                  {opt.label}
                 </button>
-                <button
-                  onClick={resetDateFilter}
-                  className="px-4 py-2 bg-white/10 text-gray-300 rounded-lg hover:bg-white/20 transition-all text-sm"
-                >
-                  Reset
-                </button>
-              </div>
+              ))}
             </div>
-          )}
-        </div>
-      )}
+
+            {showDatePicker && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="p-6 bg-white border border-[#E5E5E1] rounded-sm max-w-lg"
+              >
+                {dateError && (
+                  <p className="text-red-500 text-xs mb-4 font-medium">{dateError}</p>
+                )}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase tracking-tighter text-[#555555]">From</label>
+                    <input
+                      type="date"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      className="w-full px-3 py-2 bg-[#F9F9F8] border border-[#E5E5E1] text-[#1A1A1A] text-xs focus:outline-none focus:border-[#1A1A1A]"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase tracking-tighter text-[#555555]">To</label>
+                    <input
+                      type="date"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      className="w-full px-3 py-2 bg-[#F9F9F8] border border-[#E5E5E1] text-[#1A1A1A] text-xs focus:outline-none focus:border-[#1A1A1A]"
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={applyDateFilter}
+                    disabled={!startDate || !endDate}
+                    className="px-4 py-2 bg-[#1A1A1A] text-white text-[10px] font-bold uppercase tracking-widest hover:bg-[#333333] transition-colors disabled:opacity-30"
+                  >
+                    Apply
+                  </button>
+                  <button
+                    onClick={resetDateFilter}
+                    className="px-4 py-2 border border-[#E5E5E1] text-[#555555] text-[10px] font-bold uppercase tracking-widest hover:bg-[#F9F9F8] transition-colors"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -9,71 +9,50 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="bg-black border-t border-gray-800 mt-32">
-      <div className="max-w-7xl mx-auto px-8 py-20">
+    <footer className="bg-[#FAFAF9] border-t border-[#E8E8E6] mt-32">
+      <div className="max-w-5xl mx-auto px-6 py-24">
 
         {/* TOP GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-14">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
 
           {/* BRAND */}
-          <div>
-            <h2 className="text-2xl font-bold text-cyan-400 mb-4">
+          <div className="col-span-1 md:col-span-1">
+            <h2 className="text-lg font-bold text-[#1C1C1C] mb-6 tracking-tight">
               Techies Journal
             </h2>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Writing about system design, backend engineering, cloud,
-              DevOps, and building scalable products.
+            <p className="text-[#6B6B6B] text-sm leading-[1.7] max-w-xs">
+              A collection of technical essays on systems, backend architecture, and the craft of engineering.
             </p>
           </div>
 
           {/* COMMUNITIES */}
           <div>
-            <h4 className="text-sm font-semibold tracking-widest text-gray-500 mb-5">
-              COMMUNITIES
+            <h4 className="text-eyebrow text-[#9A9A9A] mb-6">
+              Sections
             </h4>
-            <ul className="space-y-3 text-gray-300 text-sm">
+            <ul className="space-y-3.5 text-[#6B6B6B] text-sm">
               <li>
-                <Link
-                  href="/technology"
-                  prefetch={true}
-                  className="hover:text-cyan-400 transition"
-                >
+                <Link href="/technology" prefetch={true} className="hover:text-[#1C1C1C] transition-colors duration-150">
                   Technology
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/system-design"
-                  prefetch={true}
-                  className="hover:text-cyan-400 transition"
-                >
+                <Link href="/system-design" prefetch={true} className="hover:text-[#1C1C1C] transition-colors duration-150">
                   System Design
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/backend-engineering"
-                  prefetch={true}
-                  className="hover:text-cyan-400 transition"
-                >
+                <Link href="/backend-engineering" prefetch={true} className="hover:text-[#1C1C1C] transition-colors duration-150">
                   Backend Engineering
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/cloud-devops"
-                  prefetch={true}
-                  className="hover:text-cyan-400 transition"
-                >
+                <Link href="/cloud-devops" prefetch={true} className="hover:text-[#1C1C1C] transition-colors duration-150">
                   Cloud & DevOps
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/ai-ml"
-                  prefetch={true}
-                  className="hover:text-cyan-400 transition"
-                >
+                <Link href="/ai-ml" prefetch={true} className="hover:text-[#1C1C1C] transition-colors duration-150">
                   AI & ML
                 </Link>
               </li>
@@ -82,16 +61,16 @@ export default function Footer() {
 
           {/* CONNECT */}
           <div>
-            <h4 className="text-sm font-semibold tracking-widest text-gray-500 mb-5">
-              CONNECT
+            <h4 className="text-eyebrow text-[#9A9A9A] mb-6">
+              Connect
             </h4>
-            <ul className="space-y-3 text-gray-300 text-sm">
+            <ul className="space-y-3.5 text-[#6B6B6B] text-sm">
               <li>
                 <a
                   href="https://rishabhupadhyay.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-cyan-400 transition"
+                  className="hover:text-[#1C1C1C] transition-colors duration-150"
                 >
                   About Me
                 </a>
@@ -99,7 +78,7 @@ export default function Footer() {
               <li>
                 <a
                   href="mailto:rishabh.292002@gmail.com"
-                  className="hover:text-cyan-400 transition"
+                  className="hover:text-[#1C1C1C] transition-colors duration-150"
                 >
                   Contact
                 </a>
@@ -107,80 +86,51 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* USEFUL LINKS */}
+          {/* SOCIALS */}
           <div>
-            <h4 className="text-sm font-semibold tracking-widest text-gray-500 mb-5">
-              USEFUL LINKS
+            <h4 className="text-eyebrow text-[#9A9A9A] mb-6">
+              Presence
             </h4>
-            <ul className="space-y-3 text-gray-300 text-sm">
-              <li>
-                <Link
-                  href="/privacy-policy"
-                  prefetch={true}
-                  className="hover:text-cyan-400 transition"
-                >
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/terms"
-                  prefetch={true}
-                  className="hover:text-cyan-400 transition"
-                >
-                  Terms & Conditions
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/cookies"
-                  prefetch={true}
-                  className="hover:text-cyan-400 transition"
-                >
-                  Cookies
-                </Link>
-              </li>
-            </ul>
+            <div className="flex gap-5 text-[#6B6B6B]">
+              <a
+                href="https://github.com/Rishabhupadhya"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#1C1C1C] transition-colors duration-150"
+                aria-label="GitHub"
+              >
+                <FaGithub size={18} />
+              </a>
+
+              <a
+                href="https://linkedin.com/in/rishabh-upadhyay-880294220"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#1C1C1C] transition-colors duration-150"
+                aria-label="LinkedIn"
+              >
+                <FaLinkedin size={18} />
+              </a>
+
+              <a
+                href="mailto:rishabh.292002@gmail.com"
+                className="hover:text-[#1C1C1C] transition-colors duration-150"
+                aria-label="Email"
+              >
+                <FaEnvelope size={18} />
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* DIVIDER */}
-        <div className="border-t border-gray-800 my-12" />
-
         {/* BOTTOM ROW */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-
-          {/* LEGAL */}
-          <p className="text-gray-500 text-xs">
-            © {new Date().getFullYear()} Techies Journal. All rights reserved.
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-12 border-t border-[#E8E8E6]">
+          <p className="text-[#9A9A9A] text-meta">
+            © {new Date().getFullYear()} Techies Journal. Handcrafted for readability.
           </p>
-
-          {/* SOCIALS */}
-          <div className="flex items-center gap-6">
-            <a
-              href="https://github.com/Rishabhupadhya"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-cyan-400 hover:text-black transition"
-            >
-              <FaGithub size={18} />
-            </a>
-
-            <a
-              href="https://linkedin.com/in/rishabh-upadhyay-880294220"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-cyan-400 hover:text-black transition"
-            >
-              <FaLinkedin size={18} />
-            </a>
-
-            <a
-              href="mailto:rishabh.292002@gmail.com"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-cyan-400 hover:text-black transition"
-            >
-              <FaEnvelope size={18} />
-            </a>
+          <div className="flex gap-8 text-eyebrow text-[#6B6B6B]">
+            <Link href="/privacy-policy" className="hover:text-[#1C1C1C] transition-colors duration-150">Privacy</Link>
+            <Link href="/terms" className="hover:text-[#1C1C1C] transition-colors duration-150">Terms</Link>
           </div>
         </div>
 
