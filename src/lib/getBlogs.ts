@@ -38,8 +38,9 @@ export function getBlogBySlug(slug: string): Post {
   if (typeof window !== "undefined") {
     throw new Error("getBlogBySlug can only be run on the server");
   }
-  const filePath = path.join(process.cwd(), "src/content/blogs", `${slug}.mdx`);
-  if (!fs.existsSync(filePath)) throw new Error("Blog not found");
+  const decodedSlug = decodeURIComponent(slug);
+  const filePath = path.join(process.cwd(), "src/content/blogs", `${decodedSlug}.mdx`);
+  if (!fs.existsSync(filePath)) throw new Error(`Blog not found: ${filePath}`);
   const source = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(source);
   return {

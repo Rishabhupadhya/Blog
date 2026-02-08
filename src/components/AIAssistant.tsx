@@ -20,13 +20,35 @@ export default function AIAssistant({ articleContent }: AIAssistantProps) {
   const shouldReduceMotion = useReducedMotion();
 
   const handleSummarize = async () => {
+    if (!articleContent) return;
     setIsLoading(true);
-    // Simulate AI processing - replace with actual API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setSummary(
-      "This article explores the core concepts and implementation details, providing practical insights for developers. Key takeaways include architectural patterns, performance considerations, and real-world applications."
-    );
-    setIsLoading(false);
+    try {
+      const response = await fetch("/api/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "summarize",
+          text: articleContent,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || `Server responded with ${response.status}`);
+      }
+
+      if (data.output) {
+        setSummary(data.output);
+      } else {
+        setSummary("I encountered an issue while summarizing. Please try again later.");
+      }
+    } catch (error: any) {
+      console.error("Summarization failed:", error);
+      setSummary(`Editorial Assistant: ${error.message || "Could not connect."}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const tabs = [
@@ -38,29 +60,128 @@ export default function AIAssistant({ articleContent }: AIAssistantProps) {
   const animationProps = shouldReduceMotion
     ? {}
     : {
-        initial: { opacity: 0, y: 8, scale: 0.98 },
-        animate: { opacity: 1, y: 0, scale: 1 },
-        exit: { opacity: 0, y: 4, scale: 0.98 },
-        transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] },
-      };
+      initial: { opacity: 0, y: 8, scale: 0.98 },
+      animate: { opacity: 1, y: 0, scale: 1 },
+      exit: { opacity: 0, y: 4, scale: 0.98 },
+      transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] },
+    };
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
+    <div className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[var(--layer-overlay)]">
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            {...(animationProps as any)}
+            className="absolute bottom-16 right-0 w-[calc(100vw-48px)] md:w-80 bg-white border border-[#E8E8E6] rounded-sm shadow-[0_20px_40px_rgba(0,0,0,0.08)] overflow-hidden"
+          >
+            {/* Header */}
+            <div className="px-5 py-4 border-b border-[#E8E8E6] bg-[#FAFAF9]">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#1C1C1C] animate-pulse" />
+                <h3 className="text-eyebrow text-[#1C1C1C]">Editorial Assistant</h3>
+              </div>
+            </div>
+
+            {/* Tabs */}
+            <div className="flex border-b border-[#E8E8E6] bg-white">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex-1 px-4 py-3 text-[10px] font-bold uppercase tracking-wider transition-all duration-200 ${activeTab === tab.id
+                    ? "text-[#1C1C1C] border-b border-[#1C1C1C]"
+                    : "text-[#9A9A9A] hover:text-[#1C1C1C]"
+                    }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Content */}
+            <div className="p-6 min-h-[160px] bg-white">
+              <AnimatePresence mode="wait">
+                {activeTab === "summary" && (
+                  <motion.div key="summary" {...(animationProps as any)}>
+                    {isLoading ? (
+                      <div className="space-y-3">
+                        <div className="h-2 bg-[#F1F1EF] rounded w-full ai-shimmer" />
+                        <div className="h-2 bg-[#F1F1EF] rounded w-5/6 ai-shimmer" />
+                        <div className="h-2 bg-[#F1F1EF] rounded w-4/6 ai-shimmer" />
+                      </div>
+                    ) : summary ? (
+                      <p className="text-[13px] text-[#404040] leading-relaxed font-serif italic">
+                        {summary}
+                      </p>
+                    ) : (
+                      <div className="text-center py-4">
+                        <p className="text-[13px] text-[#6B6B6B] mb-5">
+                          Get a contextual summary to accelerate your understanding.
+                        </p>
+                        <button
+                          onClick={handleSummarize}
+                          className="w-full py-2.5 border border-[#1C1C1C] text-[#1C1C1C] text-[10px] font-bold uppercase tracking-widest hover:bg-[#1C1C1C] hover:text-white transition-all duration-200"
+                        >
+                          Summarize Article
+                        </button>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+
+                {activeTab === "explain" && (
+                  <motion.div key="explain" {...(animationProps as any)} className="text-center py-4">
+                    <p className="text-[13px] text-[#6B6B6B] mb-2 leading-relaxed">
+                      Highlight any section of the text for a deep-dive explanation.
+                    </p>
+                    <div className="mt-4 inline-flex items-center gap-2 text-[10px] font-bold text-[#9A9A9A] uppercase tracking-widest">
+                      <span className="w-1 h-1 rounded-full bg-[#E8E8E6]" />
+                      Contextual Mode Active
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeTab === "related" && (
+                  <motion.div key="related" {...(animationProps as any)}>
+                    <p className="text-eyebrow text-[#9A9A9A] mb-4">Deep Dives</p>
+                    <ul className="space-y-4">
+                      {["System Design Fundamentals", "Scaling Microservices", "Performance Patterns"].map(
+                        (title) => (
+                          <li key={title} className="border-b border-dashed border-[#E8E8E6] pb-3 last:border-0 last:pb-0">
+                            <a
+                              href="#"
+                              className="text-[13px] text-[#1C1C1C] hover:text-[#6B6B6B] transition-colors duration-150 block"
+                            >
+                              {title}
+                            </a>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Toggle Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="ai-assist-button w-12 h-12 bg-[#1C1C1C] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#2D2D2D] transition-colors duration-200"
-        whileHover={shouldReduceMotion ? {} : { scale: 1.05 }}
-        whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
-        aria-label={isOpen ? "Close AI assistant" : "Open AI assistant"}
-        aria-expanded={isOpen}
+        className="w-14 h-14 bg-[#1C1C1C] text-white rounded-sm shadow-2xl flex items-center justify-center hover:bg-[#2D2D2D] transition-colors duration-200 relative overflow-hidden group"
+        whileHover={shouldReduceMotion ? {} : { y: -2 }}
+        whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
       >
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#1C1C1C] to-[#404040] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <AnimatePresence mode="wait">
           {isOpen ? (
             <motion.svg
               key="close"
-              {...animationProps}
-              className="w-5 h-5"
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+              className="w-5 h-5 relative z-10"
               fill="none"
               stroke="currentColor"
               strokeWidth={1.5}
@@ -71,8 +192,10 @@ export default function AIAssistant({ articleContent }: AIAssistantProps) {
           ) : (
             <motion.svg
               key="open"
-              {...animationProps}
-              className="w-5 h-5"
+              initial={{ rotate: 90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: -90, opacity: 0 }}
+              className="w-5 h-5 relative z-10"
               fill="none"
               stroke="currentColor"
               strokeWidth={1.5}
@@ -87,102 +210,6 @@ export default function AIAssistant({ articleContent }: AIAssistantProps) {
           )}
         </AnimatePresence>
       </motion.button>
-
-      {/* Panel */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            {...animationProps}
-            className="absolute bottom-16 right-0 w-80 bg-white border border-[#E8E8E6] rounded-lg shadow-xl overflow-hidden"
-          >
-            {/* Header */}
-            <div className="px-4 py-3 border-b border-[#E8E8E6] bg-[#FAFAF9]">
-              <h3 className="text-sm font-semibold text-[#1C1C1C]">AI Reading Assistant</h3>
-              <p className="text-xs text-[#9A9A9A] mt-0.5">Enhance your understanding</p>
-            </div>
-
-            {/* Tabs */}
-            <div className="flex border-b border-[#E8E8E6]">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 px-3 py-2.5 text-xs font-medium transition-colors duration-150 flex items-center justify-center gap-1.5 ${
-                    activeTab === tab.id
-                      ? "text-[#1C1C1C] border-b-2 border-[#1C1C1C] -mb-px"
-                      : "text-[#6B6B6B] hover:text-[#1C1C1C]"
-                  }`}
-                >
-                  <tab.icon />
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Content */}
-            <div className="p-4 min-h-[140px]">
-              <AnimatePresence mode="wait">
-                {activeTab === "summary" && (
-                  <motion.div key="summary" {...animationProps}>
-                    {isLoading ? (
-                      <div className="space-y-2">
-                        <div className="h-3 bg-[#E8E8E6] rounded ai-shimmer" />
-                        <div className="h-3 bg-[#E8E8E6] rounded w-4/5 ai-shimmer" />
-                        <div className="h-3 bg-[#E8E8E6] rounded w-3/5 ai-shimmer" />
-                      </div>
-                    ) : summary ? (
-                      <p className="text-sm text-[#1C1C1C] leading-relaxed">{summary}</p>
-                    ) : (
-                      <div className="text-center py-4">
-                        <p className="text-sm text-[#6B6B6B] mb-3">
-                          Get a quick summary of this article
-                        </p>
-                        <button
-                          onClick={handleSummarize}
-                          className="px-4 py-2 bg-[#1C1C1C] text-white text-xs font-medium rounded hover:bg-[#2D2D2D] transition-colors duration-150"
-                        >
-                          Summarize Article
-                        </button>
-                      </div>
-                    )}
-                  </motion.div>
-                )}
-
-                {activeTab === "explain" && (
-                  <motion.div key="explain" {...animationProps} className="text-center py-4">
-                    <p className="text-sm text-[#6B6B6B] mb-2">
-                      Select any text in the article to get an explanation
-                    </p>
-                    <p className="text-xs text-[#9A9A9A]">
-                      Highlight complex concepts for AI clarification
-                    </p>
-                  </motion.div>
-                )}
-
-                {activeTab === "related" && (
-                  <motion.div key="related" {...animationProps}>
-                    <p className="text-xs text-[#9A9A9A] mb-3">Related articles you might enjoy:</p>
-                    <ul className="space-y-2">
-                      {["System Design Fundamentals", "Scaling Microservices", "Performance Patterns"].map(
-                        (title) => (
-                          <li key={title}>
-                            <a
-                              href="#"
-                              className="text-sm text-[#1C1C1C] hover:text-[#6B6B6B] transition-colors duration-150 block py-1"
-                            >
-                              {title} →
-                            </a>
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
@@ -224,11 +251,11 @@ function RelatedIcon() {
  * Inline AI Explainer - For complex sections
  * Shows "Explain this" option on hover
  */
-export function InlineExplainer({ 
-  children, 
-  explanation 
-}: { 
-  children: ReactNode; 
+export function InlineExplainer({
+  children,
+  explanation
+}: {
+  children: ReactNode;
   explanation?: string;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -237,7 +264,7 @@ export function InlineExplainer({
   return (
     <div className="relative group">
       {children}
-      
+
       {/* Explain button - appears on hover */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}

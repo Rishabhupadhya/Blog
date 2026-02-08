@@ -49,23 +49,23 @@ export default function CodeBlock({
   const containerVariants = shouldReduceMotion
     ? {}
     : {
-        hidden: { opacity: 0, y: 16 },
-        visible: { 
-          opacity: 1, 
-          y: 0,
-          transition: {
-            duration: 0.4,
-            ease: [0.16, 1, 0.3, 1],
-          }
-        },
-      };
+      hidden: { opacity: 0, y: 16 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: 0.4,
+          ease: [0.16, 1, 0.3, 1] as any,
+        }
+      },
+    };
 
   return (
     <motion.div
       ref={ref}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
-      variants={containerVariants}
+      variants={containerVariants as any}
       className="relative group my-10"
     >
       {/* Header bar */}
@@ -85,7 +85,7 @@ export default function CodeBlock({
             <span className="text-eyebrow text-[#9A9A9A]">Code</span>
           )}
         </div>
-        
+
         <button
           onClick={handleCopy}
           className="
@@ -139,7 +139,7 @@ export default function CodeBlock({
       </div>
 
       {/* Subtle glow on hover */}
-      <div 
+      <div
         className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
         aria-hidden="true"
       >

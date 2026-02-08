@@ -36,8 +36,9 @@ export function getAIMLPostBySlug(slug: string): Post {
   if (typeof window !== "undefined") {
     throw new Error("getAIMLPostBySlug can only be run on the server");
   }
-  const filePath = path.join(process.cwd(), "src/content/ai-ml", `${slug}.mdx`);
-  if (!fs.existsSync(filePath)) throw new Error("Post not found");
+  const decodedSlug = decodeURIComponent(slug);
+  const filePath = path.join(process.cwd(), "src/content/ai-ml", `${decodedSlug}.mdx`);
+  if (!fs.existsSync(filePath)) throw new Error(`Post not found: ${filePath}`);
   const source = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(source);
   return {
@@ -50,10 +51,10 @@ export function getAIMLPostBySlug(slug: string): Post {
 export function getRelatedAIMLPosts(currentSlug: string, limit = 3): Post[] {
   const allPosts = getAllAIMLPosts();
   const currentPost = allPosts.find((post) => post.slug === currentSlug);
-  
+
   if (!currentPost) {
     return allPosts.filter((post) => post.slug !== currentSlug).slice(0, limit);
   }
-  
+
   return getRelatedPosts(allPosts, currentPost, limit);
 }

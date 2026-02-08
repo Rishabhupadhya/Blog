@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, Variants } from "framer-motion";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 type RevealDirection = "up" | "down" | "left" | "right" | "none";
 type RevealPreset = "fade" | "slide" | "scale" | "blur";
@@ -17,7 +17,7 @@ interface ScrollRevealProps {
   threshold?: number;
   className?: string;
   staggerChildren?: number;
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
 }
 
 const getDirectionOffset = (
@@ -99,15 +99,15 @@ export default function ScrollReveal({
 
   const containerVariants: Variants = staggerChildren
     ? {
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: {
-            staggerChildren,
-            delayChildren: delay,
-          },
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren,
+          delayChildren: delay,
         },
-      }
+      },
+    }
     : variants;
 
   return (

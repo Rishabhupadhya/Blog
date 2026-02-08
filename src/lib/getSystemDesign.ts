@@ -36,8 +36,9 @@ export function getSystemDesignPostBySlug(slug: string): Post {
   if (typeof window !== "undefined") {
     throw new Error("getSystemDesignPostBySlug can only be run on the server");
   }
-  const filePath = path.join(process.cwd(), "src/content/system-design", `${slug}.mdx`);
-  if (!fs.existsSync(filePath)) throw new Error("Post not found");
+  const decodedSlug = decodeURIComponent(slug);
+  const filePath = path.join(process.cwd(), "src/content/system-design", `${decodedSlug}.mdx`);
+  if (!fs.existsSync(filePath)) throw new Error(`Post not found: ${filePath}`);
   const source = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(source);
   return {
@@ -50,11 +51,11 @@ export function getSystemDesignPostBySlug(slug: string): Post {
 export function getRelatedSystemDesignPosts(currentSlug: string, limit = 3): Post[] {
   const allPosts = getAllSystemDesignPosts();
   const currentPost = allPosts.find((post) => post.slug === currentSlug);
-  
+
   if (!currentPost) {
     // Fallback: just filter out current slug and return first N posts
     return allPosts.filter((post) => post.slug !== currentSlug).slice(0, limit);
   }
-  
+
   return getRelatedPosts(allPosts, currentPost, limit);
 }

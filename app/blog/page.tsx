@@ -1,8 +1,11 @@
 import BlogCard from "@/components/BlogCard";
 import Pagination from "@/components/pagination";
 import { getAllBlogs } from "@/lib/getBlogs";
+import { AmbientBackground } from "@/components/Parallax";
+import { motion } from "framer-motion";
+import FadeIn from "@/components/FadeIn";
 
-const BLOGS_PER_PAGE = 2; // Set to 2 to show pagination (will have 2 pages with 4 blogs)
+const BLOGS_PER_PAGE = 6;
 
 export default async function BlogPage({
   searchParams,
@@ -11,67 +14,56 @@ export default async function BlogPage({
 }) {
   const params = await searchParams;
   const allBlogs = getAllBlogs();
-  
-  // Map blogs to include all required properties
+
   const blogs = allBlogs.map((blog: any) => ({
     slug: blog.slug,
     title: blog.title || "Untitled",
     description: blog.description || "No description available.",
     date: blog.date || "Unknown date"
   }));
-  
+
   const currentPage = Number(params.page) || 1;
-
   const totalPages = Math.ceil(blogs.length / BLOGS_PER_PAGE);
-
   const startIndex = (currentPage - 1) * BLOGS_PER_PAGE;
-  const paginatedBlogs = blogs.slice(
-    startIndex,
-    startIndex + BLOGS_PER_PAGE
-  );
-
-  // Debug info
-  console.log({
-    totalBlogs: blogs.length,
-    blogsPerPage: BLOGS_PER_PAGE,
-    totalPages,
-    currentPage
-  });
+  const paginatedBlogs = blogs.slice(startIndex, startIndex + BLOGS_PER_PAGE);
 
   return (
-    <main className="min-h-screen px-8 py-28 bg-gradient-to-b from-black via-gray-900 to-black">
-      <section className="max-w-7xl mx-auto">
+    <main className="min-h-screen bg-[#FAFAF9] relative overflow-hidden">
+      <AmbientBackground intensity={0.4} />
 
-        {/* DEBUG INFO */}
-        <div className="mb-4 p-4 bg-yellow-500 text-black text-sm rounded">
-          <p>Total Blogs: {blogs.length}</p>
-          <p>Blogs Per Page: {BLOGS_PER_PAGE}</p>
-          <p>Total Pages: {totalPages}</p>
-          <p>Current Page: {currentPage}</p>
-        </div>
+      <div className="max-w-5xl mx-auto px-6 pt-40 pb-32">
+        <FadeIn>
+          <div className="mb-20">
+            <span className="text-eyebrow text-[#9A9A9A] mb-4 block">Archive</span>
+            <h1 className="text-EDITORIAL-TITLE font-bold text-[#1A1A1A] text-5xl md:text-6xl tracking-tight mb-8">
+              All Perspectives
+            </h1>
+            <p className="text-lg text-[#6B6B6B] max-w-2xl leading-relaxed">
+              A comprehensive collection of our technical deep dives, architectural insights, and industry observations.
+            </p>
+          </div>
+        </FadeIn>
 
-        {/* HEADER */}
-        <h1 className="text-4xl md:text-5xl font-bold text-cyan-400 mb-14 text-center">
-          Tech Blog
-        </h1>
-
-        {/* BLOG GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {paginatedBlogs.map((blog) => (
-            <BlogCard key={blog.slug} blog={blog} />
+        <div className="grid grid-cols-1 gap-4">
+          {paginatedBlogs.map((blog, index) => (
+            <BlogCard
+              key={blog.slug}
+              blog={blog}
+              index={index}
+              featured={currentPage === 1 && index === 0}
+            />
           ))}
         </div>
 
-        {/* PAGINATION (above footer) */}
-        <div className="mt-20 flex justify-center items-center gap-4 bg-red-500 p-8">
-          <p className="text-white">Pagination Here:</p>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-          />
-        </div>
-
-      </section>
+        {totalPages > 1 && (
+          <div className="mt-24 pt-12 border-t border-[#E8E8E6] flex justify-center">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+            />
+          </div>
+        )}
+      </div>
     </main>
   );
 }

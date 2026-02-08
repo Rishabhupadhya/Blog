@@ -47,7 +47,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: any = {
   hidden: { y: 16, opacity: 0 },
   visible: {
     y: 0,
@@ -91,7 +91,7 @@ export default function HomePage() {
       {/* Categories / Sections */}
       <section className="max-w-5xl mx-auto px-6">
         <div className="border-t border-[#E8E8E6] pt-20">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.2 }}
@@ -146,7 +146,7 @@ export default function HomePage() {
 
       {/* CTA Footer */}
       <section className="max-w-5xl mx-auto px-6 mt-32">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}

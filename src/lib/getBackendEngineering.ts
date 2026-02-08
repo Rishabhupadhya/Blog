@@ -36,8 +36,9 @@ export function getBackendEngineeringPostBySlug(slug: string): Post {
   if (typeof window !== "undefined") {
     throw new Error("getBackendEngineeringPostBySlug can only be run on the server");
   }
-  const filePath = path.join(process.cwd(), "src/content/backend-engineering", `${slug}.mdx`);
-  if (!fs.existsSync(filePath)) throw new Error("Post not found");
+  const decodedSlug = decodeURIComponent(slug);
+  const filePath = path.join(process.cwd(), "src/content/backend-engineering", `${decodedSlug}.mdx`);
+  if (!fs.existsSync(filePath)) throw new Error(`Post not found: ${filePath}`);
   const source = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(source);
   return {
@@ -50,10 +51,10 @@ export function getBackendEngineeringPostBySlug(slug: string): Post {
 export function getRelatedBackendEngineeringPosts(currentSlug: string, limit = 3): Post[] {
   const allPosts = getAllBackendEngineeringPosts();
   const currentPost = allPosts.find((post) => post.slug === currentSlug);
-  
+
   if (!currentPost) {
     return allPosts.filter((post) => post.slug !== currentSlug).slice(0, limit);
   }
-  
+
   return getRelatedPosts(allPosts, currentPost, limit);
 }

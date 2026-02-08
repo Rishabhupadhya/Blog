@@ -39,17 +39,17 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
   if (headings.length === 0) return null;
 
   return (
-    <motion.nav 
+    <motion.nav
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, delay: 0.4 }}
-      className="fixed w-56"
+      className="w-full"
       aria-label="Table of contents"
     >
-      <h3 className="text-eyebrow text-[#9A9A9A] mb-6">
+      <h3 className="text-eyebrow text-[#1C1C1C] mb-8 pb-4 border-b border-[#E8E8E6]">
         On This Page
       </h3>
-      <ul className="space-y-3 max-h-[65vh] overflow-y-auto pr-4 scrollbar-subtle">
+      <ul className="space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto pr-4 scrollbar-subtle scroll-py-4">
         {headings.map((heading) => (
           <li
             key={heading.id}
@@ -58,13 +58,19 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
             <a
               href={`#${heading.id}`}
               className={`
-                text-[13px] block transition-all duration-200 leading-relaxed
+                text-[13px] block transition-all duration-300 leading-relaxed relative
                 ${activeId === heading.id
-                  ? "text-[#1C1C1C] font-medium"
-                  : "text-[#6B6B6B] hover:text-[#1C1C1C]"
+                  ? "text-[#1C1C1C] font-bold translate-x-1"
+                  : "text-[#9A9A9A] hover:text-[#1C1C1C]"
                 }
               `}
             >
+              {activeId === heading.id && (
+                <motion.span
+                  layoutId="toc-indicator"
+                  className="absolute -left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#1C1C1C]"
+                />
+              )}
               {heading.text}
             </a>
           </li>
