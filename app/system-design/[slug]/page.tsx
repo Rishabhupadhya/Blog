@@ -7,6 +7,7 @@ import CodeBlock from "@/components/CodeBlock";
 import ReadingProgress from "@/components/ReadingProgress";
 import ScrollReveal from "@/components/ScrollReveal";
 import AIAssistant from "@/components/AIAssistant";
+import SelectionAssistant from "@/components/SelectionAssistant";
 import { Metadata } from "next";
 
 import Link from "next/link";
@@ -187,7 +188,8 @@ export default async function SystemDesignDetail({
       </div>
 
       {/* AI Reading Assistant */}
-      <AIAssistant />
+      <AIAssistant articleContent={content} />
+      <SelectionAssistant articleContent={content} />
     </main>
   );
 }
