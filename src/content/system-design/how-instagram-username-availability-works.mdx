@@ -5,46 +5,46 @@ description: "A system design deep dive into how Instagram checks username avail
 tags: ["system-design", "backend-engineering", "scalability", "databases", "caching", "distributed-systems"]
 ---
 
-# 🏃‍♂️ How Instagram Checks Usernames in < 100ms
+# ‍ How Instagram Checks Usernames in < 100ms
 
-🧠 **How does Instagram tell you "username already taken" in under 100ms?**
+ **How does Instagram tell you "username already taken" in under 100ms?**
 
 At Instagram's scale, this is a hard problem.
 
-- 🌍 **Millions of users**  
-- 🌐 **Global traffic**  
-- 👥 **Thousands checking the same usernames simultaneously**
+- **Millions of users** 
+- **Global traffic** 
+- **Thousands checking the same usernames simultaneously**
 
 Yet the feedback feels instant.
 
-Here's what's really going on under the hood 👇
+Here's what's really going on under the hood 
 
 ---
 
-## 🤔 Why This Is a Non-Trivial Problem
+## Why This Is a Non-Trivial Problem
 
 If Instagram queried its primary database **every time** you typed a username:
 
-- 📈 **Latency would spike**  
-- 🔥 **Databases would melt**  
-- 🐌 **Signup would feel painfully slow**  
+- **Latency would spike** 
+- **Databases would melt** 
+- **Signup would feel painfully slow** 
 
 At global scale, this approach is not just inefficient — it's **unsustainable**.
 
 So Instagram follows a different rule:
 
-> **💡 Optimize for fast feedback, enforce correctness later.**
+> ** Optimize for fast feedback, enforce correctness later.**
 
 ---
 
-## ⚙️ Step 1: Normalize Everything
+## Step 1: Normalize Everything
 
 Before any lookup happens, the username is **normalized**.
 
 This typically includes:
-- 🔤 **Converting to lowercase**  
-- ✂️ **Stripping dots or special characters**  
-- 🚫 **Applying reserved-word rules**  
+- **Converting to lowercase** 
+- **Stripping dots or special characters** 
+- **Applying reserved-word rules** 
 
 For example:
 
@@ -60,30 +60,30 @@ This prevents edge-case collisions and simplifies downstream checks.
 
 ---
 
-## 🚀 Step 2: Hit Memory, Not Disk
+## Step 2: Hit Memory, Not Disk
 
 Username availability is checked against **in-memory systems**, not the main database.
 
 This includes:
-- ⚡ **Redis-like caches**  
-- 🔑 **Optimized key-value stores**  
+- **Redis-like caches** 
+- **Optimized key-value stores** 
 
 These systems provide:
-- **O(1)** lookups  
-- **Millisecond-level latency**  
+- **O(1)** lookups 
+- **Millisecond-level latency** 
 
 **This is what powers the fast *"available / taken"* message you see while typing.**
 
 ---
 
-## 🎭 Step 3: Assume the Cache Can Lie
+## Step 3: Assume the Cache Can Lie
 
 Caches are fast — but they're **not authoritative**.
 
 Two users can still:
-- ✅ Check the same username  
-- ✅ See it as available  
-- ✅ Click **"Sign up"** at the same time  
+- Check the same username 
+- See it as available 
+- Click **"Sign up"** at the same time 
 
 This is **expected behavior** in distributed systems.
 
@@ -91,7 +91,7 @@ That's why Instagram **never trusts the cache alone**.
 
 ---
 
-## 🔒 Step 4: Enforce Truth at Write Time
+## Step 4: Enforce Truth at Write Time
 
 When you finally submit the signup form:
 
@@ -105,78 +105,78 @@ This is where **correctness** lives.
 
 ---
 
-## 💎 The Key Insight (This Is the Trick)
+## The Key Insight (This Is the Trick)
 
-> **⚡ Fast feedback is optimistic.**  
-> **🔒 Final correctness is pessimistic.**
+> ** Fast feedback is optimistic.** 
+> ** Final correctness is pessimistic.**
 
 ```
-Cache     → Speed    (fast but can be stale)
-Database  → Truth    (slow but authoritative)
+Cache  → Speed (fast but can be stale)
+Database → Truth (slow but authoritative)
 ```
 
 Great systems separate:
-- 👥 **User experience**  
-- 🔐 **Data integrity**  
+- **User experience** 
+- **Data integrity** 
 
 Trying to solve both in one layer leads to slow, fragile systems.
 
 ---
 
-## 🌍 Why This Pattern Matters
+## Why This Pattern Matters
 
 You'll see this design everywhere:
 
-- ✉️ **Username availability**  
-- 📧 **Email checks**  
-- 🎟️ **Seat booking systems**  
-- 📦 **Inventory management**  
-- 🚦 **Rate-limited resources**  
+- **Username availability** 
+- **Email checks** 
+- **Seat booking systems** 
+- **Inventory management** 
+- **Rate-limited resources** 
 
 Anytime you need:
-- ⚡ **Instant feedback**  
-- ✅ **Strong correctness guarantees**  
+- **Instant feedback** 
+- **Strong correctness guarantees** 
 
 **This pattern shows up.**
 
 ---
 
-## 🗺️ Visualizing the Flow
+## Visualizing the Flow
 
 ```
 User types username
-        ↓
-🔤 Normalize input (lowercase, strip chars)
-        ↓
-⚡ Cache lookup (fast, optimistic)
-        ↓
-💬 UI feedback shown ("available" or "taken")
-        ↓
-✅ Final submit
-        ↓
-🔒 Database unique constraint (authoritative)
-        ↓
-✅ One succeeds, others fail gracefully
+  ↓
+ Normalize input (lowercase, strip chars)
+  ↓
+ Cache lookup (fast, optimistic)
+  ↓
+ UI feedback shown ("available" or "taken")
+  ↓
+ Final submit
+  ↓
+ Database unique constraint (authoritative)
+  ↓
+ One succeeds, others fail gracefully
 ```
 
 ---
 
-## 🎯 System Design Takeaway
+## System Design Takeaway
 
 If your system feels:
-- ⚡ **Instant**  
-- 🎨 **Responsive**  
-- 🔒 **And still never breaks rules**  
+- **Instant** 
+- **Responsive** 
+- **And still never breaks rules** 
 
 It's probably:
-- 🎭 **Lying early** (optimistic cache)
-- ✅ **Enforcing later** (pessimistic database)
+- **Lying early** (optimistic cache)
+- **Enforcing later** (pessimistic database)
 
 **That's not a bug. That's good design.**
 
 ---
 
-## 🎓 Final Thought
+## Final Thought
 
 At scale, correctness and speed rarely come from the same place.
 
@@ -184,13 +184,13 @@ At scale, correctness and speed rarely come from the same place.
 
 ---
 
-## 🔗 What to Explore Next
+## What to Explore Next
 
 Want to dive deeper into related topics?
-- 🔄 **Race condition handling & idempotency**
-- 🌐 **Global consistency & replication strategies**
-- ⚖️ **CAP theorem in practice**
-- 📊 **Comparing naive vs optimized designs**
+- **Race condition handling & idempotency**
+- **Global consistency & replication strategies**
+- **CAP theorem in practice**
+- **Comparing naive vs optimized designs**
 
 
 

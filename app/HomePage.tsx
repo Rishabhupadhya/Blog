@@ -5,6 +5,12 @@ import { motion } from "framer-motion";
 
 const categories = [
   {
+    title: "Technology",
+    description: "Editorial perspectives on software, hardware, and the future of tech.",
+    href: "/technology",
+    count: 4,
+  },
+  {
     title: "System Design",
     description: "Architecting scalable, resilient, and high-performance distributed systems at scale.",
     href: "/system-design",
@@ -27,12 +33,6 @@ const categories = [
     description: "Practical applications of machine learning and large language models in production.",
     href: "/ai-ml",
     count: 3,
-  },
-  {
-    title: "Technology",
-    description: "Editorial perspectives on software, hardware, and the future of tech.",
-    href: "/technology",
-    count: 4,
   },
 ];
 
