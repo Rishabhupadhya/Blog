@@ -196,9 +196,18 @@ export default async function BackendEngineeringDetail({
           </article>
 
           <aside className="hidden lg:block relative">
-            <div className="sticky top-28 h-[calc(100vh-140px)] flex flex-col py-4">
+            <div className="sticky top-28 h-[calc(100vh-140px)] flex flex-col justify-between py-4">
               <div className="overflow-y-auto scrollbar-subtle pr-2">
                 <TableOfContents headings={headings} />
+              </div>
+
+              <div className="pt-8 border-t border-[#E8E8E6] mt-auto">
+                <h4 className="text-eyebrow text-[#1C1C1C] mb-4">Share Perspective</h4>
+                <div className="flex gap-4">
+                  {['Twitter', 'LinkedIn', 'Copy'].map(platform => (
+                    <button key={platform} className="text-meta text-[#9A9A9A] hover:text-[#1C1C1C] transition-colors uppercase tracking-widest">{platform}</button>
+                  ))}
+                </div>
               </div>
             </div>
           </aside>
