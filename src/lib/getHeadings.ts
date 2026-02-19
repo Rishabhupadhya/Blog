@@ -13,10 +13,11 @@ export function getHeadings(source: string): Heading[] {
     .map((line) => {
       const level = line.match(/^#{1,3}/)?.[0].length ?? 1;
       const text = line.replace(/^#{1,3}\s*/, "").trim();
+      // Match the same ID generation as MDX components
       const id = text
         .toLowerCase()
-        .replace(/[^\w\s-]/g, "")
-        .replace(/\s+/g, "-");
+        .replace(/[^\w]+/g, "-")
+        .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
 
       return { id, text, level };
     });

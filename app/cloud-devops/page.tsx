@@ -11,5 +11,5 @@ export default function CloudDevOpsPage() {
   return <CloudDevOpsList posts={posts} />;
 }
 
-// Revalidate immediately in development to see new posts
-export const revalidate = 0;
+// ISR: Revalidate every hour
+export const revalidate = 3600;

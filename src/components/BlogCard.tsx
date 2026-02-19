@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useState, useRef, MouseEvent } from "react";
+import { CompactViewCounter } from "./ViewCounter";
 
 interface BlogCardProps {
   blog: {
@@ -86,6 +87,7 @@ export default function BlogCard({
             <time className="text-meta text-[#9A9A9A]">
               {blog.date}
             </time>
+            <CompactViewCounter slug={blog.slug} />
           </div>
 
           <h2 className="text-page-title font-bold text-[#1C1C1C] mb-6 leading-[1.1] transition-colors duration-300 max-w-4xl group-hover:text-[#404040]">
@@ -129,9 +131,13 @@ export default function BlogCard({
       <Link href={`${basePath}/${blog.slug}`} className="block">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
           <div className="flex-1 max-w-2xl">
-            <time className="text-meta text-[#9A9A9A] block mb-3">
-              {blog.date}
-            </time>
+            <div className="flex items-center gap-3 mb-3">
+              <time className="text-meta text-[#9A9A9A]">
+                {blog.date}
+              </time>
+              <span className="text-[#E8E8E6]">•</span>
+              <CompactViewCounter slug={blog.slug} />
+            </div>
 
             <h2 className="text-article-title font-bold text-[#1C1C1C] mb-4 leading-tight group-hover:text-[#404040] transition-colors duration-200">
               {blog.title}

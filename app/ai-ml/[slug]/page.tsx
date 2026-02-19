@@ -7,6 +7,7 @@ import CodeBlock from "@/components/CodeBlock";
 import ReadingProgress from "@/components/ReadingProgress";
 import AIAssistant from "@/components/AIAssistant";
 import SelectionAssistant from "@/components/SelectionAssistant";
+import ViewCounter from "@/components/ViewCounter";
 import { Metadata } from "next";
 import Link from "next/link";
 import FadeIn from "@/components/FadeIn";
@@ -86,12 +87,14 @@ export default async function AIMLDetail({
           <article className="max-w-[720px] w-full">
             <FadeIn y={24}>
               <header className="mb-20">
-                <div className="flex items-center gap-3 mb-8">
+                <div className="flex items-center gap-3 mb-8 flex-wrap">
                   <span className="text-eyebrow text-[#1C1C1C] border border-[#E8E8E6] px-2 py-1 rounded-sm">
                     Intelligence
                   </span>
                   <div className="h-px w-8 bg-[#E8E8E6]" />
                   <time className="text-meta text-[#9A9A9A]">{date}</time>
+                  <div className="h-px w-8 bg-[#E8E8E6]" />
+                  <ViewCounter slug={slug} shouldIncrement={true} />
                 </div>
 
                 <h1 className="text-EDITORIAL-TITLE font-bold text-[#1C1C1C] mb-10 leading-[1.05] tracking-tight text-5xl md:text-6xl lg:text-7xl">
@@ -150,11 +153,17 @@ export default async function AIMLDetail({
                   source={content}
                   components={{
                     h2: ({ children, ...props }) => {
-                      const id = String(children).toLowerCase().replace(/[^\w]+/g, "-");
+                      const id = String(children)
+                        .toLowerCase()
+                        .replace(/[^\w]+/g, "-")
+                        .replace(/^-+|-+$/g, "");
                       return <h2 id={id} className="text-3xl mt-24 mb-10 pb-4 border-b border-[#F1F1EF]" {...props}>{children}</h2>;
                     },
                     h3: ({ children, ...props }) => {
-                      const id = String(children).toLowerCase().replace(/[^\w]+/g, "-");
+                      const id = String(children)
+                        .toLowerCase()
+                        .replace(/[^\w]+/g, "-")
+                        .replace(/^-+|-+$/g, "");
                       return <h3 id={id} className="text-2xl mt-16 mb-6" {...props}>{children}</h3>;
                     },
                     pre: ({ children }) => <CodeBlock>{children}</CodeBlock>,

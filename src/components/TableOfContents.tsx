@@ -36,6 +36,25 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
     return () => observer.disconnect();
   }, [headings]);
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      // Calculate offset for fixed header (adjust this value based on your header height)
+      const headerOffset = 120; // Adjust this value if needed
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+
+      // Update URL without jumping
+      window.history.pushState(null, "", `#${id}`);
+    }
+  };
+
   if (headings.length === 0) return null;
 
   return (
@@ -57,8 +76,9 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
           >
             <a
               href={`#${heading.id}`}
+              onClick={(e) => handleClick(e, heading.id)}
               className={`
-                text-[13px] block transition-all duration-300 leading-relaxed relative
+                text-[13px] block transition-all duration-300 leading-relaxed relative cursor-pointer
                 ${activeId === heading.id
                   ? "text-[#1C1C1C] font-bold translate-x-1"
                   : "text-[#9A9A9A] hover:text-[#1C1C1C]"

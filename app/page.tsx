@@ -42,10 +42,5 @@ export default function Page() {
   return <HomePage categories={categories} />;
 }
 
-// Optional: Add ISR (Incremental Static Regeneration) for periodic updates
-// Uncomment the line below to revalidate every hour (3600 seconds)
-// export const revalidate = 3600;
-
-// For development: Use revalidate = 0 to see changes immediately
-// For production: Comment out or set to a higher value
-export const revalidate = 0;
+// ISR: Revalidate every hour to update counts
+export const revalidate = 3600;
