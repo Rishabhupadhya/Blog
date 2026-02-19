@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
+import { useState, useRef, MouseEvent } from "react";
 
 interface BlogCardProps {
   blog: {
@@ -24,6 +25,9 @@ export default function BlogCard({
   featured = false
 }: BlogCardProps) {
   const shouldReduceMotion = useReducedMotion();
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+  const cardRef = useRef<HTMLElement>(null);
 
   const animationProps = shouldReduceMotion
     ? {}
@@ -37,11 +41,42 @@ export default function BlogCard({
       },
     };
 
+  const handleMouseMove = (e: MouseEvent<HTMLElement>) => {
+    if (!cardRef.current || shouldReduceMotion) return;
+    
+    const card = cardRef.current;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateXValue = ((y - centerY) / centerY) * -5;
+    const rotateYValue = ((x - centerX) / centerX) * 5;
+    
+    setRotateX(rotateXValue);
+    setRotateY(rotateYValue);
+  };
+
+  const handleMouseLeave = () => {
+    setRotateX(0);
+    setRotateY(0);
+  };
+
   if (featured) {
     return (
       <motion.article
         {...animationProps}
-        className="featured-article group relative py-16 mb-12 border-b border-[#E8E8E6]"
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="featured-article group relative py-16 mb-12 border-b border-[#E8E8E6] hover:bg-white hover:shadow-xl transition-all duration-300 -mx-6 px-6 rounded-sm cursor-pointer"
+        style={{
+          transformStyle: "preserve-3d",
+          transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0) scale(${rotateX || rotateY ? 1.02 : 1})`,
+          transition: "transform 0.1s ease-out, box-shadow 0.3s ease, background-color 0.3s ease",
+        }}
       >
         <Link href={`${basePath}/${blog.slug}`} className="block">
           <div className="flex items-center gap-4 mb-6">
@@ -81,7 +116,15 @@ export default function BlogCard({
   return (
     <motion.article
       {...animationProps}
-      className="group relative py-12 border-b border-[#E8E8E6] last:border-0 hover:bg-[#FDFDFD] transition-colors duration-300 -mx-6 px-6"
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="group relative py-12 border-b border-[#E8E8E6] last:border-0 hover:bg-white hover:shadow-lg transition-all duration-300 -mx-6 px-6 rounded-sm cursor-pointer"
+      style={{
+        transformStyle: "preserve-3d",
+        transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0) scale(${rotateX || rotateY ? 1.01 : 1})`,
+        transition: "transform 0.1s ease-out, box-shadow 0.3s ease, background-color 0.3s ease",
+      }}
     >
       <Link href={`${basePath}/${blog.slug}`} className="block">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
@@ -99,7 +142,7 @@ export default function BlogCard({
             </p>
 
             <span className="inline-flex items-center text-eyebrow text-[#9A9A9A] group-hover:text-[#1C1C1C] transition-colors duration-300">
-              Detail →
+              Read Full Article →
             </span>
           </div>
         </div>

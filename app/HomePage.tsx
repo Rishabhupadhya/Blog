@@ -3,38 +3,16 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-const categories = [
-  {
-    title: "Technology",
-    description: "Editorial perspectives on software, hardware, and the future of tech.",
-    href: "/technology",
-    count: 4,
-  },
-  {
-    title: "System Design",
-    description: "Architecting scalable, resilient, and high-performance distributed systems at scale.",
-    href: "/system-design",
-    count: 4,
-  },
-  {
-    title: "Backend Engineering",
-    description: "Deep technical dives into APIs, databases, and JVM performance optimization.",
-    href: "/backend-engineering",
-    count: 3,
-  },
-  {
-    title: "Cloud & DevOps",
-    description: "Modern infrastructure, container orchestration, and automated delivery pipelines.",
-    href: "/cloud-devops",
-    count: 3,
-  },
-  {
-    title: "AI & ML",
-    description: "Practical applications of machine learning and large language models in production.",
-    href: "/ai-ml",
-    count: 3,
-  },
-];
+interface Category {
+  title: string;
+  description: string;
+  href: string;
+  count: number;
+}
+
+interface HomePageProps {
+  categories: Category[];
+}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -56,7 +34,7 @@ const itemVariants: any = {
   },
 };
 
-export default function HomePage() {
+export default function HomePage({ categories }: HomePageProps) {
   return (
     <main className="min-h-screen bg-[#FAFAF9] pt-32 pb-24">
       {/* Hero Section */}

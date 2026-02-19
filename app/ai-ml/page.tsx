@@ -10,3 +10,6 @@ export default function AIMLPage() {
   }));
   return <AIMLList posts={posts} />;
 }
+
+// Revalidate immediately in development to see new posts
+export const revalidate = 0;

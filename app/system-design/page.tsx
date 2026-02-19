@@ -10,3 +10,6 @@ export default function SystemDesignPage() {
   }));
   return <SystemDesignList posts={posts} />;
 }
+
+// Revalidate immediately in development to see new posts
+export const revalidate = 0;
